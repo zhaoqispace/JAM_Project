@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+		
+	<div class="post">
+		<div th:each="Post:${posts}">
+			<div class = "post_Top">
+				<img th:src="${profileUrl}" class="profilePic" alt="profileIcon"/>
+				
+				<div class="post_Top_Info">
+					<h5><span th:text="${firstName}"></span></h5>
+					<p th:text="${Post.dateTime}">Date time</p>
+				</div>
+			</div>
+			
+			<div class="post_Bottom">
+				<p th:text="${Post.Content}">Message</p>
+			</div>
+			
+			
+			<div class="post_Options">
+
+				
+				<form class="post_Option" th:action="@{deletepost}" method="post"  >
+				
+					<button type="submit" th:name="postID" id="postID" th:value="${Post.id}"> <span class="material-icons">delete</span>
+				
+					</button>
+				
+				</form>	
+					
+				</div>
+			</div>
+		</div>
+
+</body>
+
+
+</html>

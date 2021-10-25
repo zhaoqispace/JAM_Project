@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+
+<body>
+	
+	<nav th:replace="Fragments/layout.html :: navbar"></nav>
+	
+	<!-- Artist Introduction Section -->
+<div class="artistIntroSectionzq">
+
+ 	 <img class="smallBannerzq" th:src="${artist.profileUrl}" alt=""></img>
+ 	 <div class="aboutArtistSectionzq">
+		<!--  <span  class="aboutShopHeader h6">  <i th:text="'Artist: ' + ${artistName}" ></i></span>-->
+		
+		<span  class="aboutArtistHeaderzq" th:text=" ${artistMusicChannelName}"  ></span>
+ 	 	<span class="aboutArtistFeature1zq" th:text="'Number of Subscribers: ' + ${numberOfSubscribers}"></span> 
+ 	 	<span class="aboutArtistFeature2zq" th:text="'Number of Musics: ' + ${numberOfArtistMusics}"></span>
+ 	 	
+ 	 	<span class="aboutArtistFeature3zq">
+ 	 		<!--  If the customer already subscribed the artist, it shows "UNSUBSCRIBE"	--> 	
+ 	 		<span th:if = "${subscribeStatus == true}">
+				<Button class="userSubscribeBtn"><a th:href="@{/music/unsubscribenoajax/{artistId}(artistId = ${artistId})}">UNSUBSCRIBE</a></Button>
+			</span>
+		
+			<!--  Else if the customer haven't subscribed the artist, it shows "SUBSCRIBE" -->
+			<span th:if = "${subscribeStatus == false}" >
+				<Button class="userSubscribeBtn"> <a th:href="@{/music/subscribenoajax/{artistId}(artistId = ${artistId})}">SUBSCRIBE</a></Button>
+			</span> 
+ 	 	</span>
+ 	 </div>
+</div> 
+
+
+	<!-- Artist Music Gallery Section -->
+
+
+  <!-- Album NAVBAR -->
+    <section class="productsOnSaleSection">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md">
+            <!-- Product Categories -->
+            	<nav class="navbar spaceEvenly">
+		            <span th:each = "album: ${artistAlbums}">
+		            <form id ="albumMusicForm" th:action="@{/music/viewartistmusicchannel/{artistId}(artistId = ${artistId})}" method="GET">
+			              <a class="nav-link active blackFontText" data-toggle="tab" href="#"
+			              onclick="$(this).closest('form').submit(); return false;">
+			     			<span th:text = "${album.AlbumDescription}"></span>
+			              </a>
+		              		<input type="hidden" name="AlbumID" th:value = "${album.AlbumID}">
+		            </form>
+		            </span>
+		        </nav>
+          	</div>
+          </div>
+        </div>
+  	</section>
+  	
+  	
+ 	<!-- Code by Max: -->
+ 	
+  	<!-- Music CONTENT in each Album-->
+	<div class="row col-lg-10 mt-4 mx-auto">
+     <th:block th:each="music: ${listOfMusic}">
+      <div class="col-6 col-md-3 col-lg-3 mb-5">
+      	
+      <div class="card mb-1 h-100"> 
+      
+      <!--  Media image -->
+       <a th:href="@{/music/listenmusic/{mediaId}(mediaId = ${music.id})}">
+        <img th:src="${music.thumbnailUrl}" class="card-img-top productPhotoSize" alt="...">
+        <span class="sideDurationVideoChannelPage" th:text="${music.duration}"></span> 
+       </a>
+       
+       <!-- Collapse -->
+        <div class="card-collapse-parent"> 
+        <!-- artist photo -->
+        <div class="card-body px-0 bg-white">
+         <div class="row">
+          <div class="col-4">
+           <img class="rounded-circle" width="100%" style="padding-left: 30%; padding-bottom: 10%" 
+           		th:src="${music.channel.channelUser.profileUrl}">
+          
+          </div>
+         </div>
+
+           
+         <!-- Title -->
+         <div class="mb-1 productHeading h6"><strong>Title:</strong>
+          <span th:text="${music.title}"></span>
+          </div>
+          
+         <!-- tag -->
+          <div class= "mb-1 productHeading h6"><strong>Tags:</strong>
+           <span  th:each="tag:${music.tagList}" >
+           <span  th:text="${tag.tagName}"></span>
+          </span>
+          </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </th:block>
+   </div>
+ 
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>  	
+	
+</body>
+</html>

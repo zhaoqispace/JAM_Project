@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+<body>
+  <img th:src="@{/images/JAM_LOGO.png}" class="logo2">
+ <nav class="navbar jamHeader2"></nav>
+
+
+<div class="signUpBody2">
+ 	<img th:src="@{/images/JAM_LOGO.png}" class="biglogo">
+ 	
+ 	<div class="forArtistsText">FOR Artists</div>
+	 <div id="signUpForm">	 
+		 <form class="form-inline" th:action="@{/login/update}" th:object=${user} method="post">
+		 	 <input type="hidden" th:field="*{userID}" />
+		 	 <input type="hidden" th:field="*{firstName}" />
+		 	 <input type="hidden" th:field="*{lastName}" />
+		 	 <input type="hidden" th:field="*{email}" />
+		 	 <input type="hidden" th:field="*{password}" />
+		 	 <input type="hidden" th:field="*{Artist}"/>
+		 	 <input type="hidden" th:field="*{profileUrl}" />
+		 	 <input type="hidden" th:field="*{Enabled}" />	
+		 	 <input type="hidden" th:field="*{bannerUrl}" />
+			 <input placeholder="Stage Name" type="text" id="stageNameInput" th:field="*{displayName}" required/>
+			 
+				 <div>
+				 	<img th:src="${user.profileUrl}" class="artistSignupImage" alt="display picture preview">
+				 	<div class="uploadArtistImage">
+					  <label for="artistProfilePic">
+					    <i class="fa fa-camera cameraIcon" aria-hidden="true"></i>
+					  </label>
+					  <input id="artistProfilePic" type="file" style="display:none;"/>
+					</div>
+				</div>
+			
+
+			 	<textarea class="signupAboutTextArea" placeholder="About"  th:field="*{about}" rows="4" cols="43"></textarea>
+			 <input type="submit" class="editShowReelBtn" value="Finish" />
+		 </form>
+	</div>
+</div>
+
+<div sec:authorize="hasAnyAuthority('Customer')">
+<div class="signUpBody2">
+ 	<img th:src="@{/images/JAM_LOGO.png}" class="biglogo">
+ 	
+ 	<div class="forArtistsText">FOR Artists</div>
+	 <div id="signUpForm">	 
+		 <form class="form-inline" th:action="@{/login/save}" th:object=${user} method="post">
+		 	 <input type="hidden" th:field="*{userID}" />
+		 	 <input type="hidden" th:field="*{firstName}" />
+		 	 <input type="hidden" th:field="*{lastName}" />
+		 	 <input type="hidden" th:field="*{email}" />
+		 	 <input type="hidden" th:field="*{password}" />
+		 	 <input type="hidden" th:field="*{Artist}"/>
+		 	 <input type="hidden" th:field="*{profileUrl}" />
+		 	 <input type="hidden" th:field="*{Enabled}" />	
+		 	 <input type="hidden" th:field="*{bannerUrl}" />
+			 <input placeholder="Stage Name" type="text" id="stageNameInput" th:field="*{displayName}" required/>
+			 
+				 <div>
+				 	<img th:src="${user.profileUrl}" class="artistSignupImage" alt="display picture preview">
+				 	<div class="uploadArtistImage">
+					  <label for="artistProfilePic">
+					    <i class="fa fa-camera cameraIcon" aria-hidden="true"></i>
+					  </label>
+					  <input id="artistProfilePic" type="file" style="display:none;"/>
+					</div>
+				</div>
+
+			 	<textarea class="signupAboutTextArea" placeholder="About"  th:field="*{about}" rows="4" cols="43"></textarea>
+			 <input type="submit" class="editShowReelBtn" value="Finish" />
+		 </form>
+	</div>
+</div>
+</div>
+
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+	
+</body>
+</html>

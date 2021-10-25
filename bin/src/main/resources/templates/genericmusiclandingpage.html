@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"></head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+
+<section class="productsContentSection2">
+		<div class="container">
+			<h3 class="col-md-auto">Trending Music</h3>
+			<hr>
+				<div class="row col-lg-11 mx-auto">
+					<th:block th:each="music: ${topmusic}">
+						<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100"> 
+						
+						<!--  Meida image  -->
+							<a th:href="@{/music/listenmusic/}+${music.id}">
+								<img th:src="${music.thumbnailUrl}" class="card-img-top productPhotoSize" alt="...">
+								<span  class="sideDurationMusicLandingPage" th:text="${music.duration}"></span> 
+							</a>
+							
+							<!-- Collapse -->
+								<div class="card-collapse-parent"> 
+								
+								<!-- artisit photo -->
+								<div class="card-body px-0 bg-white">
+								<a th:href="@{/music/viewartistmusicchannel/}+${music.channel.channelUser.userID}">
+									<div class="row">
+										<div class="col-4">
+											<img class="rounded-circle" width="100%"
+												style="padding-left: 30%; padding-bottom: 10%"
+												th:src="${music.channel.channelUser.profileUrl}">
+										</div>
+									</div> 
+									</a>
+									
+									<!-- author -->
+									   <div class="mb-1 productHeading h6"><strong>Artist:</strong>
+									  	 <a th:href="@{/music/viewartistmusicchannel/}+${music.channel.channelUser.userID}">
+											<span th:text="${music.channel.channelUser.displayName}"> </span>
+											</span>
+											</a> 
+									  </div> 
+									  
+									<!-- Title -->
+									<div class="mb-1 productHeading h6"><strong>Title:</strong>
+										<span th:text="${music.title}"></span>
+										</div>
+										
+									<!-- tag -->
+										<div class=	"mb-1 productHeading h6"><strong>Tags:</strong>
+											<span  th:each="tag:${music.tagList}" >
+											<span  th:text="${tag.tagName}"></span>
+										</span>
+										</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+	</section>
+				
+</body>
+</html>
+
+
+ <div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div> 
+
+</body>   
+</html>

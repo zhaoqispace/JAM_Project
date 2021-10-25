@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+
+<body>
+
+<nav th:replace="Fragments/layout.html :: navbar"></nav>
+
+<div class="mediaNotFound">
+	<span th:text = "${errorMessage}"></span>
+</div>
+
+<div th:replace="Fragments/layout.html :: footer"></div>
+</body>
+</html>

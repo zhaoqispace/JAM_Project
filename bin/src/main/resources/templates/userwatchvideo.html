@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+
+<body class="userPages">
+	<nav th:replace="Fragments/layout.html :: navbar"></nav>
+
+	<video width="400" height="200" class="col-md-4 col-lg-5 userPageMainVideo" controls>
+ 		<source th:src="${media.mediaUrl}" type="video/mp4">
+ 	</video>
+
+	<input type="hidden" id="mainVideoID" th:value="${media.id}">
+
+ 	<!-- Video Introduction Section -->
+ 	<div class="userPageVideoIntroSection">
+ 		
+ 		<span class="userVideoTitleLabel">
+	     <span th:text="${media.title}" class=""></span>
+	      <span th:each = "tag: ${media.tagList}">
+	         <span class="smallVidAuthor" th:text="${' | ' + tag.tagName}"></span>
+	       </span>
+     	</span>
+     
+		<span th:text="${viewCount} + ' views, published on ' + ${media.createdOn}" class="numberOfReviews"></span> 
+ 		<!-- Like Button Heart Shape -->
+		<i th:if="${liked == false and user != null}" id="heartButton" class="fas fa-heart userPageHeartIcon" onclick="openForm()" aria-hidden="true"></i>
+		<i th:if="${liked == true and user != null}" id="heartButton" class="fas fa-heart userPageHeartIconLiked" onclick="" aria-hidden="true"></i>
+		
+		<i th:if="${user == null}" id="heartButtonNeedLogin" class="fas fa-heart userPageHeartIcon" onclick="openHeartFormLogin()" aria-hidden="true"></i>
+		<hr>
+ 	</div>
+ 	
+ 	
+ 	<!-- Popup Form upon clicking heart button to ask if non-logged in user wants 
+ 	register/log when he clicks Heart Button -->
+ 	<div th:if="${user == null}" class="askToLoginHeartFormPopup" id ="askToLoginHeartForm">
+ 		<label><b>Please sign-in or register to add a video to a playlist</b></label>
+ 		<span style="display: flex">
+ 		<a th:href = "@{/video/redirectLogin/{mediaId}(mediaId = ${media.id})}"><button type="button" class="btn popupHeartLoginButton">Sign-In / Register</button></a>
+  		<button type="button" class="btn popupCancelHeartLoginButton" onclick="closeHeartFormLogin()">Cancel</button>
+ 		</span>
+ 	</div>
+ 	
+ 	
+ 	<!-- Popup Form upon clicking heart button if user is logged in -->
+ 	<div th:if="${user != null}" class="playlistFormPopup" id="myHeartFormVideo">
+	  <form name="myHeartFormVideo" id="myHeartFormVideo" method="post" class="form-container">
+	
+	    <label><b>Please select a Playlist to save to:</b></label>
+	    <br>
+	    <select id="playlistID" name = "playlistID">
+			<option disabled selected>Select an Option</option>
+				<option
+				th:each = "playlist: ${playlists}"
+				th:value = "${playlist.playlistID}"
+				th:text = "${playlist.playlistName}">
+				</option>
+		</select>	
+	
+		<input type="hidden" id="userID" th:value="${user.userID}">
+		<input type="hidden" id="mediaID" th:value="${media.id}">
+		
+		<span style="display: flex">
+	    <button id="savePlaylistButtonVideo" type="button" class="btn saveToPlaylistButton" onclick="closeForm()">Submit</button>
+  		
+  		<button id="cancelSavePlaylistButton" type="button" class="btn cancelSavePlaylistButton" onclick="closeForm()">Cancel</button>
+  		</span>
+  		</form>
+	</div>
+	
+	
+	<!--  
+	<h4 th:if="${loggedInUserSubscribeErrorMsg != null}" th:text="${loggedInUserSubscribeErrorMsg}" style="color: red"></h4>
+	-->
+ 	<!-- Artist Intro Section -->
+ 	<div class="userPageArtistIntroSection">
+		<form name="artistForm" id="artistForm" method="post">
+	 		<input type = "hidden" id="artistId"  th:value = "${media.channel.channelUser.userID}">
+	 		<a th:href="@{/video/viewartistvideochannel/{artistId}(artistId = ${media.channel.channelUser.userID})}">
+			<span id="ArtistName" th:text="'Artist: ' + ${media.channel.channelUser.displayName}" class="artistName"></span>
+			</a>
+			<!--  If the customer already subscribed the artist, it shows "UNSUBSCRIBE"	--> 	
+			<span th:if = "${subscribeStatus == true and user != null}" >
+				<button class="sbutton userSubscribeBtn zqClass" type= "button" id="zqButton" >UNSUBSCRIBE</button>
+			</span>
+			
+			<!--  Else if the customer haven't subscribed the artist, it shows "SUBSCRIBE" -->
+			<span th:if = "${subscribeStatus == false and user != null}" >
+				<button class="sbutton userSubscribeBtn" type= "button" id="zqButton" >SUBSCRIBE</button>
+			</span> 
+		</form>	
+		
+			<!-- If User is not logged in -->
+			<span th:if = "${user == null}">
+				<button id="SubscribeNeedLoginBtn" onclick="openSubscribeFormLogin()" class="sbutton userSubscribeBtn">SUBSCRIBE</button>
+			</span>
+		
+		<hr>
+	</div>
+	
+	<!-- Popup Form to ask if non-logged in user wants register/log in when he clicks Subscribe Button -->
+ 	<div th:if="${user == null}" class="askToLoginSubscribeFormPopup" id ="askToLoginSubscribeForm">
+ 		<label><b>Please sign-in or register to subscribe to a video</b></label>
+ 		<span style="display: flex">
+ 		<a th:href = "@{/video/redirectLogin/{mediaId}(mediaId = ${media.id})}"><button type="button" class="btn popupSubscribeLoginButton">Sign-In / Register</button></a>
+  		<button type="button" class="btn popupCancelHeartLoginButton" onclick="closeSubscribeFormLogin()">Cancel</button>
+ 		</span>
+ 	</div>
+	
+	
+	<!-- Write Comments & Number of Comments Section -->
+	<section id="userCommentsSection">
+	<form name="userCommentsForm" id="userCommentsForm" method="post">
+		<div class="userCommentsSection">
+			<span th:text="${commentCount} + ' Comments'" class="numberOfComments"></span>
+			<textarea th:if="${user != null}" id="commentsTxtArea" class="commentsTextArea" placeholder="Write your comments here" rows="2" cols="112" maxlength="254"></textarea>
+			<a th:href = "@{/video/redirectLogin/{mediaId}(mediaId = ${media.id})}" th:if="${user == null}"><textarea th:if="${user == null}" id="commentsTxtArea" class="commentsTextArea" placeholder="Write your comments here" rows="2" cols="112" maxlength="254"></textarea></a>
+		</div>
+		
+		<!-- Comments Submit Button -->
+		<div th:if="${user != null}">
+			<input type="hidden" id="commentUserId" th:value = "${user.userID}">
+			<input type="hidden" id="commentDisplayName" th:value = "${user.displayName}">
+			<input type="hidden" id="commentMediaId" th:value = "${media.id}">
+			<input type="hidden" id="commentDateTime" th:value = "${#dates.format(#dates.createNow(),'dd MMMM YYYY, HH:mm:ss')}">
+			<input type="hidden" id="commentedNumberOfComments" th:value = "${commentCount}">
+			<button id="userCommentsSubmitBtnVideo" class="userCommentsBtn" type="button">Submit</button>
+		</div>
+	</form>
+
+	<!-- Users' Comments List -->
+	<div class="listOfComments">
+		<span th:each="c: ${comments}"> <!-- th:each goes into this span to iterate and generate comments list -->
+			<span class="flex-container">
+				<span th:text="${c.commentUser.displayName}" class="commentName"></span>
+				<span th:text="${' | ' + c.dateTime}" class="commentDate"></span>
+				<span id="deleteCommentBtnVideo" th:if="${user != null}" class="deleteCommentBtnVideo"><i th:if="${media.channel.channelUser.userID == user.userID or c.commentUser.userID == user.userID}" class="far fa-minus-square"></i></span>
+				<input type="hidden" id="commentIDvideo" th:value="${c.id}">
+				<span th:text="${c.userComment}" class="commentDetails"></span>
+			</span>
+		</span>
+	</div>
+	</section>
+
+<!-- Side Videos List -->
+
+	<div class="userPageSideVideosSection flex-container">
+		<span th:each = "sideMedia: ${recommend_medialist_toshow}"> 	
+			<a th:href="@{/video/watchvideo/{mediaId}(mediaId = ${sideMedia.id})}" class="sideVideoLinkColor"><img th:src="${sideMedia.thumbnailUrl}" class="userPageSideVideos" alt="...">
+			<span class="col smallVidDescription">
+				<span th:text="${sideMedia.title}" class=""></span>
+				<span th:each = "tag: ${sideMedia.tagList}">
+	 				<span class="smallVidAuthor" th:text="${' | ' + tag.tagName}"></span>
+	 			</span>	
+				<br>
+				<br>
+	 			<span th:text="${'Author: ' + sideMedia.channel.channelUser.displayName}" class="smallVidAuthor"></span>
+	 		</span>
+	 		<span th:text="${sideMedia.duration}" class="sideVideoDuration"></span>
+	 		</a>
+ 		</span>
+	</div>
+
+
+
+<div th:replace="Fragments/layout.html :: footer"></div>
+<script type="text/javascript" th:src="@{/js/watch_videos_ajax.js}"></script>
+<script>
+function openHeartFormLogin() {
+	document.getElementById("askToLoginHeartForm").style.display = "block";
+}
+
+function closeHeartFormLogin() {
+	document.getElementById("askToLoginHeartForm").style.display = "none";
+}
+
+function openSubscribeFormLogin() {
+	document.getElementById("askToLoginSubscribeForm").style.display = "block";
+}
+
+function closeSubscribeFormLogin() {
+	document.getElementById("askToLoginSubscribeForm").style.display = "none";
+}
+
+$(document).mouseup(function(e) {
+	if ($("#myHeartFormVideo").has(e.target).length === 0 && !$("#myHeartFormVideo").is(e.target)) 
+		{
+			closeHeartFormLogin()
+			closeSubscribeFormLogin()
+		}
+	});	
+
+</script>
+</body>
+</html>

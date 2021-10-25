@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body class="userPages">
+	<!-- Write Comments & Number of Comments Section -->
+<section id="userCommentsSectionMusic">
+	<form name="userCommentsFormMusic" id="userCommentsFormMusic" method="post">
+		<div class="userCommentsSectionMusic">
+			<span th:text="${commentCount} + ' Comments'" class="numberOfCommentsMusic"></span>
+			<textarea id="commentsTxtAreaMusic" class="commentsTextAreaMusic" placeholder="Write your comments here" rows="2" cols="112" maxlength="254"></textarea>
+		</div>
+		
+		<!-- Comments Submit Button -->
+		<div>
+			<input type="hidden" id="commentUserIdMusic" th:value = "${user.userID}">
+			<input type="hidden" id="commentDisplayNameMusic" th:value = "${user.displayName}">
+			<input type="hidden" id="commentMediaIdMusic" th:value = "${media.id}">
+			<input type="hidden" id="commentDateTimeMusic" th:value = "${#dates.format(#dates.createNow(),'dd MMMM YYYY, HH:mm:ss')}">
+			<input type="hidden" id="commentedNumberOfCommentsMusic" th:value = "${commentCount}">
+			<button id="userCommentsSubmitBtnMusic" class="userCommentsBtnMusic" type="button">Submit</button>
+		</div>
+	</form>
+
+	<!-- Users' Comments List -->
+	<div class="listOfCommentsMusic">
+		<span th:each="c: ${comments}"> <!-- th:each goes into this span to iterate and generate comments list -->
+			<span class="flex-container">
+				<span th:text="${c.commentUser.displayName}" class="commentNameMusic"></span>
+				<span th:text="${' | ' + c.dateTime}" class="commentDateMusic"></span>
+				<span id="deleteCommentBtnMusic" th:if="${user != null}" class="deleteCommentBtnMusic"><i th:if="${media.channel.channelUser.userID == user.userID or c.commentUser.userID == user.userID}" class="far fa-minus-square"></i></span>
+				<input type="hidden" id="commentIDmusic" th:value="${c.id}">
+				<span th:text="${c.userComment}" class="commentDetailsMusic"></span>
+			</span>
+		</span>
+	</div>
+</section>
+<script type="text/javascript" th:src="@{/js/watch_videos_ajax.js}"></script>	
+</body>
+</html>

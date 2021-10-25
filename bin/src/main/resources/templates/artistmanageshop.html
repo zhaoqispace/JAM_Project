@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles">
+</head>
+<body style="padding-bottom: 30px">
+	<div th:replace="Fragments/layout.html :: navbar"></div>
+
+	<div class="cartIntroSection">
+
+		<img class="smallBanner" th:src="@{/images/Banner.png}"
+			alt="Artist Profile Small Banner"></img> <img
+			class="profileImageIcon2" th:src="${user.profileUrl}"
+			alt="Artist Profile Photo" /><span class="mediumProfileNameText"
+			th:text="${user.displayName}"></span>
+
+
+		<div class="aboutShopSection">
+			<h4 style="padding-left: 1%; padding-top: 1%">About Shop</h4>
+			<div class="container" style="padding-left: 10%; padding-right: 10%">
+				<div class="box row">
+					<textarea name="shopDescriptionNew" cols="50" rows="5"
+						id="shopDescriptionNew" data-options="multiline:true"
+						style="background: transparent; white-space: pre-wrap; resize: none"
+						placeholder="Enter Shop Description Here"
+						th:utext="${user.shopDescription}"></textarea>
+
+				</div>
+				<input name="Edit" type="button" style="background-color: #FFB6C1"
+					value="Save" onclick="javascript:saveShopDescription()">
+			</div>
+		</div>
+	</div>
+
+
+	<!-- PRODUCTS ON SALE NAVBAR -->
+	<section class="productsOnSaleSection">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-12 col-md">
+					<!-- Product Categories -->
+					<nav class="navbar spaceEvenly">
+						<a th:if="${category} == 'allProducts'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">All
+							Products</a> <a th:unless="${category} == 'allProducts'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop">All Products</a> <a
+							th:if="${category} == 'musicCollection'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/musiccollection"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Music
+							Collection</a> <a th:unless="${category} == 'musicCollection'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/musiccollection">Music Collection</a> <a
+							th:if="${category} == 'merchandise'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/merchandise"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Merchandise</a>
+
+						<a th:unless="${category} == 'merchandise'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/merchandise">Merchandise</a> <a
+							th:if="${category} == 'clothing'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/clothing"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Clothing</a>
+
+						<a th:unless="${category} == 'clothing'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/artist/manageshop/clothing">Clothing</a>
+
+
+					
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- SELLING CONTENT -->
+	&nbsp;
+	<div align="center">
+		<form action="/artist/addnewproduct">
+			<button style="background-color: #FFB6C1">+ Add new item</button>
+		</form>
+	</div>
+
+	<section class="productsContentSection2">
+		<div class="container">
+			<div class="row col-lg-11 mx-auto">
+				<div style="margin-bottom: 18px;"></div>
+
+				<th:block th:each="productAndCount: ${productsAndCountShop}">
+					<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100">
+							<a
+								th:href="@{/artist/editproduct(productID=${productAndCount.key.productID})}">
+								<img th:src="${productAndCount.key.productUrl}"
+								class="card-img-top productPhotoSize">
+							</a>
+
+							<!-- Collapse -->
+							<div class="card-collapse-parent">
+
+								<!-- Body -->
+								<div class="card-body px-0 bg-white">
+
+									<!-- Heading -->
+
+									<div class="mb-1 productHeading h6"
+										th:text="${productAndCount.key.productName}"></div>
+
+									<!-- Quantity Sold -->
+									<div class="quantitySold"
+										th:text="${productAndCount.key.productQty} + ' in stock'"></div>
+
+									<!-- Price -->
+									<div class="mb-1 productPrice h6"
+										th:text="'$' + ${#numbers.formatDecimal(productAndCount.key.productPrice,0,2)}"></div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+	</section>
+	<div class="footer">
+		<p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+	</div>
+</body>
+
+<script>
+	var shopDescriptionNew = document.getElementById('shopDescriptionNew');
+
+	function saveShopDescription() {
+
+		var shopDescription = document.getElementById('shopDescriptionNew').value;
+		$.ajax({
+			type : 'POST',
+			url : "/artist/editShopDescription",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+			data : {
+				newShopDescription : shopDescription
+			}
+		})
+	}
+
+	shopDescriptionNew.oninput = function resizeShopDescriptionSize() {
+
+		this.style.height = "";
+		this.style.height = Math.min(shopDescriptionNew.scrollHeight, 120)
+				+ "px"
+	}
+	
+	
+</script>
+</html>

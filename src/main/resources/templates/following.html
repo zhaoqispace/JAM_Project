@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+	
+		<div sec:authorize="isAuthenticated()" class = "sidebarRow">
+		<img th:src="${profileUrl}" class="profilePic" alt="profileIcon"/>
+			<h6><span th:text="${fullName}">fullname
+				name</span></h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a th:href="@{'/home/subscribers/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Subscribers <span th:text="${followers}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		</div>
+		
+	
+	<a th:href="@{'/home/following/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">volunteer_activism</span>
+			<h6>Following <span th:text="${following}" style="font-weight:lighter;"></span></h6>
+		</div>
+	</a>
+
+	
+
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a href = "/artist/channel" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">music_video</span>
+					<h6>My Channel</h6>
+			</div>
+		</a>
+		
+		<a href = "/artist/manageshop" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">store</span>
+				<h6>My Store</h6>	
+			</div>
+		</a>
+			
+		<a href = "/dashboard" style="text-decoration: none; color:black">	
+		<div class="sidebarRow">
+			<span class="material-icons">dashboard</span>
+			<h6>My Dashboard</h6>
+		</div>
+		</a>
+		</div>
+		
+	</div>
+	
+<!-- 	sidebar ends -->
+
+	<div class="feed">
+	
+<!-- 		Message sender starts  -->
+		
+		<div class="messageSender">
+			<div class="messageSender_Top">
+				<img th:src="${profileUrl}" class="profilePic" alt="profileIcon"/>
+				<span class ="messageSender_input" th:text="'Following: ' + ${following}">subscribers</span>
+				
+			<div class="header_input">
+				<span class="material-icons"> search </span>
+				<input type="text" placeholder="search subscribers"/>
+			</div>
+			</div>
+
+<!--        Message sender ends    -->
+	
+	</div>
+		<div class="messageSenderSub" th:each="following : ${followingUsers}">
+			<a th:href="@{'/home/profile/' + ${following.userID}}" style="text-decoration: none; color:black">
+				<table>
+					<tr class="messageSender_Top">
+						<td>
+							<img th:src="${following.profileUrl}" class="profilePic"/>
+						</td>
+					<td th:text="${following.firstName} + ' ' + ${following.lastName}"class="messageSender_input">
+					</tr>
+				</table>
+			</a>
+		</div>
+	</div>
+</div>
+
+
+	
+</body>
+</html>

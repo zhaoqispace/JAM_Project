@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body class="userPages">
+	<!-- Write Comments & Number of Comments Section -->
+<section id="userCommentsSection">
+	<form name="userCommentsForm" id="userCommentsForm" method="post">
+		<div class="userCommentsSection">
+			<span th:text="${commentCount} + ' Comments'" class="numberOfComments"></span>
+			<textarea id="commentsTxtArea" class="commentsTextArea" placeholder="Write your comments here" rows="2" cols="112" maxlength="254"></textarea>
+		</div>
+		
+		<!-- Comments Submit Button -->
+		<div>
+			<input type="hidden" id="commentUserId" th:value = "${user.userID}">
+			<input type="hidden" id="commentDisplayName" th:value = "${user.displayName}">
+			<input type="hidden" id="commentMediaId" th:value = "${media.id}">
+			<input type="hidden" id="commentDateTime" th:value = "${#dates.format(#dates.createNow(),'dd MMMM YYYY, HH:mm:ss')}">
+			<input type="hidden" id="commentedNumberOfComments" th:value = "${commentCount}">
+			<button id="userCommentsSubmitBtnVideo" class="userCommentsBtn" type="button">Submit</button>
+		</div>
+	</form>
+
+	<!-- Users' Comments List -->
+	<div class="listOfComments">
+		<span th:each="c: ${comments}"> <!-- th:each goes into this span to iterate and generate comments list -->
+			<span class="flex-container">
+				<span th:text="${c.commentUser.displayName}" class="commentName"></span>
+				<span th:text="${' | ' + c.dateTime}" class="commentDate"></span>
+				<span id="deleteCommentBtnVideo" th:if="${user != null}" class="deleteCommentBtnVideo"><i th:if="${media.channel.channelUser.userID == user.userID or c.commentUser.userID == user.userID}" class="far fa-minus-square"></i></span>
+				<input type="hidden" id="commentIDvideo" th:value="${c.id}">
+				<span th:text="${c.userComment}" class="commentDetails"></span>
+			</span>
+		</span>
+	</div>
+</section>
+<script type="text/javascript" th:src="@{/js/watch_videos_ajax.js}"></script>	
+</body>
+</html>

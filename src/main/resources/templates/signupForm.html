@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+<body>
+  <img th:src="@{/images/JAM_LOGO.png}" class="logo" alt="JAM Logo">
+ <nav class="navbar jamHeader">
+</nav>
+
+<div class="signUpBody">
+ 	<div id="trendyVideoIntro" class="mt-5 h3">Trending</div>
+ 	
+ 	<video class="col-md-4 col-lg-5 h-50 signUpPageVideo" width="400" height="200" controls>
+ 		<source th:src="@{/videos/samplevideo.mp4}" type="video/mp4">
+ 	</video>
+ 	
+ 	<br>
+ 	<a id="proceedWithoutSignIn" class="mt-4" th:href="@{'/video/genericvideolandingpage'}">Proceed to Jam without signing in</a>
+ 	
+	 <div id="signUpForm">
+	 	<label id="signUpHeader">Sign Up</label>
+		 <form class="form-inline" th:action="@{/login/save}" th:object=${user} method="post">
+		 
+			 <input placeholder="First Name" type="text" id="firstNameInput" th:field="*{firstName}" required/>
+			 <input placeholder="Last Name" type="text" id="lastNameInput" th:field="*{lastName}" required/><br>
+			 <input placeholder="Email" type="email" id="emailInput" th:field="*{email}" required/><br>
+			 <input placeholder="Re-enter your email" type="email" id="retypeEmailInput" required/><br>
+			 <input placeholder="Password" type="password" id="passwordInput" th:field="*{password}"required/>
+			 <input placeholder="Re-enter password" type="password" id="reenterPasswordInput"required/>
+			 <br>
+		  	 <input type="checkbox" class="tickboxProceedToSetUpArtist" th:checked="${isArtist}" name="isArtist" value=true th:field="*{Artist}"></input>
+		  	 <label id="proceedSignUpArtist">Proceed to set up as an Artist</label>
+			 <br>
+			 <input type="submit" class="signUpBtn" value="Sign Up" />
+			 <div th:if="${#fields.hasErrors('global')}">
+    					<p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error1" />
+				</div>
+			 <br>
+		 </form>
+		 
+	</div>
+</div>
+
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+	
+	<script>
+	var password = document.getElementById("passwordInput")
+	  , confirm_password = document.getElementById("reenterPasswordInput");
+
+	function validatePassword(){
+	  if(password.value != confirm_password.value) {
+	    confirm_password.setCustomValidity("Passwords Don't Match");
+	  } else {
+	    confirm_password.setCustomValidity('');
+	  }
+	}
+
+	password.onchange = validatePassword;
+	confirm_password.onkeyup = validatePassword;
+	
+	var email = document.getElementById("emailInput")
+	  , confirm_email = document.getElementById("retypeEmailInput");
+
+	function validateEmail(){
+	  if(email.value != confirm_email.value) {
+	    confirm_email.setCustomValidity("Emails Don't Match");
+	  } else {
+	    confirm_email.setCustomValidity('');
+	  }
+	}
+
+	email.onchange = validateEmail;
+	confirm_email.onkeyup = validateEmail;
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+	<div>
+	    <a id=userID style="display: none;" th:value="${user.userID}"></a>
+	</div>
+	
+	
+<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+
+		<div sec:authorize="isAuthenticated()" class = "sidebarRow">
+		<img th:src="${user.profileUrl}" class="profilePic" alt="profileIcon"/>
+			<h6>Welcome <span sec:authentication="principal.firstName">first
+				name</span></h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a th:href="@{'/home/subscribers/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Subscribers <span th:text="${followers}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		</div>
+		
+	<div>
+	<a th:href="@{'/home/following/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">volunteer_activism</span>
+			<h6>Following <span th:text="${following}" style="font-weight:lighter;"></span></h6>
+		</div>
+	</a>
+	</div>
+	
+	
+
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a href = "/artist/channel" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">music_video</span>
+					<h6>My Channel</h6>
+			</div>
+		</a>
+		
+		<a href = "/artist/manageshop" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">store</span>
+				<h6>My Store</h6>	
+			</div>
+		</a>
+			
+		<a href = "/dashboard" style="text-decoration: none; color:black">	
+		<div class="sidebarRow">
+			<span class="material-icons">dashboard</span>
+			<h6>My Dashboard</h6>
+		</div>
+		</a>
+		</div>
+
+	</div>
+
+
+	<div class="feed">
+	
+		
+<!-- 		Post starts  -->
+		<div class="post">
+		<div th:each="Post:${posts}">
+			<div class = "post_Top">
+			<a th:href="@{'/home/profile/' + ${Post.user.userID}}" style="text-decoration: none; color:black" id="userID">
+				<img th:src="${Post.user.profileUrl}" class="profilePic" alt="profileIcon"/>
+			</a>
+				
+				<div class="post_Top_Info">
+				<a th:href="@{'/home/profile/' + ${Post.user.userID}}" style="text-decoration: none; color:black" id="userID">
+					<h5><span th:text="${Post.user.firstName} + ' ' + ${Post.user.lastName}"></span></h5>
+				</a>
+					<p th:text="${Post.dateTime}">Date time</p>
+				</div>
+			</div>
+			
+			<div class="post_Bottom">
+				<p th:text="${Post.Content}">Message</p>
+			</div>
+			
+			<div class="post_Options">
+				<div class="post_Option">
+					
+				</div>
+				
+				<form class="post_Option" th:action="@{deletepost}" method="post"  >
+				
+				
+				</form>	
+				</div>
+<!--        Post ends    -->
+
+
+	
+	</div>
+</div>
+
+</div>
+
+</body>
+
+</html>

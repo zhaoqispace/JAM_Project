@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles">
+</head>
+<body style="padding-bottom: 30px">
+<div th:replace="Fragments/layout.html :: navbar"></div>
+<div class="container mt-1 mb-1">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="invoice p-5">
+                    <h5>Your order Confirmed!</h5> <span class="font-weight-bold d-block mt-4" th:text="${user.firstName}">Hello, Chris</span> <span>You order has been confirmed and will be shipped in next two days!</span>
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Order Date</span> <span th:text="${order.orderDate}">12 Jan,2018</span> </div>
+                                    </td>
+                                
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Payment</span> <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span> </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Shiping Address</span> <span th:text="${order.address}">414 Advert Avenue, NY,USA</span> </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>You can check purchase history in here!</p>
+                    <a th:href="@{/purchasehistory}" class="btn btn-dark btn-lg btn-block">View Purchase History</a>
+                    <br>
+                    <br>
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p> <span>Jam Team</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+</body>
+</html>

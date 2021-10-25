@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body style="padding-bottom: 30px">
+<div th:replace="Fragments/layout.html :: navbar"></div>
+ 
+ <div class="cartIntroSection">
+
+ 	 <img class="smallBanner" th:src="@{/images/Banner.png}" alt="Artist Profile Small Banner"></img>
+ 	 <img class="profileImageIcon2" th:src="${artist.profileUrl}" alt="Artist Profile Photo"/><span class="mediumProfileNameText" th:text="${artist.displayName}"/>
+ 	 <!--<span class="lastActiveText">Active 30 minutes ago</span>-->
+ 	 
+ 	 <div class="aboutShopSection">
+ 	 	<span class="aboutShopHeader h6">About Shop</span>
+ 	 	<span class="aboutShopFeature1" th:utext="${artist.shopDescription}"></span>
+ 	 	<!-- <span class="aboutShopFeature2"><i class="fa fa-bullhorn fa-flip-horizontal trumpetIcon "></i>&nbsp;&nbsp;The limited edition of my newest single is available! Get them now!</span>
+ 	 	<span class="aboutShopFeature3"><img class="bikiniIcon" th:src="@{/images/bikini.png}"/>&nbsp;&nbsp;Get your summer fashion needs from my clothing line.</span>
+ 	 	<span class="aboutShopFeature4"><span class="grinIcon">&#128522;</span>&nbsp;&nbsp;Enjoy shopping!</span> -->
+ 	 </div>
+ </div>
+ 
+ <!-- PRODUCTS ON SALE NAVBAR -->
+    <section class="productsOnSaleSection">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md">
+            <!-- Product Categories -->
+            <nav class="navbar spaceEvenly">
+              <!-- <a class="nav-link active blackFontText ml-5 h6" data-toggle="tab" href="#">Home</a> -->
+              <a th:if="${status} == 'allProducts'" class="nav-link active blackFontText h6" data-toggle="tab" style="color: #ff6f61; border-bottom: 1px solid #ff6f61" th:href="@{/carthometab/}+${artistId}">All Products</a>
+              <a th:unless="${status} == 'allProducts'" class="nav-link active blackFontText h6" data-toggle="tab" th:href="@{/carthometab/}+${artistId}">All Products</a>
+              <a th:if="${status} == 'MusicCollection'" class="nav-link active blackFontText h6" data-toggle="tab" style="color: #ff6f61; border-bottom: 1px solid #ff6f61" th:href="@{/carthometab/}+${artistId}+@{/MusicCollection}">Music Collection</a>
+              <a th:unless="${status} == 'MusicCollection'" class="nav-link active blackFontText h6" data-toggle="tab" th:href="@{/carthometab/}+${artistId}+@{/MusicCollection}">Music Collection</a>
+              <a th:if="${status} == 'Merchandise'" class="nav-link active blackFontText h6" data-toggle="tab" style="color: #ff6f61; border-bottom: 1px solid #ff6f61" th:href="@{/carthometab/}+${artistId}+@{/Merchandise}">Merchandise</a>
+              <a th:unless="${status} == 'Merchandise'" class="nav-link active blackFontText h6" data-toggle="tab" th:href="@{/carthometab/}+${artistId}+@{/Merchandise}">Merchandise</a>
+              <a th:if="${status} == 'Clothing'" class="nav-link active blackFontText h6" data-toggle="tab" style="color: #ff6f61; border-bottom: 1px solid #ff6f61" th:href="@{/carthometab/}+${artistId}+@{/Clothing}">Clothing</a>
+              <a th:unless="${status} == 'Clothing'" class="nav-link active blackFontText h6" data-toggle="tab" th:href="@{/carthometab/}+${artistId}+@{/Clothing}">Clothing</a>
+              
+            </nav>
+          	</div>
+          </div>
+        </div>
+  	</section>
+<!-- SELLING CONTENT -->
+    <section class="productsContentSection">
+      <div class="container">
+        <div class="row col-lg-11 mx-auto">
+			
+          <div class="col-6 col-md-3 col-lg-3 mb-5" th:each="product: ${productList}">
+            <!-- Card -->
+            <div class="card mb-1 h-100">
+              
+              <a class="modalclickable" th:onclick="'javascript:GetById(' + ${product.productID} + ')'">
+                <img th:src="${product.productUrl}" alt="..." class="card-img-top productPhotoSize">
+              </a>
+              
+
+              <!-- Collapse -->
+              <div class="card-collapse-parent">
+
+                <!-- Body -->
+                <div class="card-body px-0 bg-white">
+
+                  <!-- Heading -->
+                  <div class="mb-1 productHeading h6">
+                    <a th:text="${product.productName}"></a>
+                  </div>
+                  
+                  <!-- Quantity Sold -->
+                  <div class="quantitySold" th:text="${product.productQty}+ ' qty'  ">
+                  </div>
+
+				
+
+                  <!-- Price -->
+                  <div class="mb-1 productPrice h6" th:text="'$' + ${product.productPrice}">
+                  </div>
+                  
+                  <label for="heartLikeButton" style="padding-left: 5%">
+						<button type="button" style="background-color: #FFB6C1"
+						th:onclick="'javascript:myFunction(' + ${product.productID} + ')'">
+						Add To Cart</button>
+				 </label>
+                  
+                 
+				  
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+          </div>
+        </div>
+    </section>
+        
+        <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Product Details
+        </h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-image">
+          <tbody>
+            <tr>
+              <td class="w-50">
+                <img id="myImage"src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png" class="img-fluid img-thumbnail" alt="Sheep">
+              </td>
+              <td>
+              
+              <label class="mb-4" id="lblName">Vans Sk8-Hi MTE Shoes</label><br><br><br>
+              
+              <label id="lblDescription">Vans Sk8-Hi MTE Shoes</label><br><br><br>
+              
+              <label id="lblPrice">Vans Sk8-Hi MTE Shoes</label><br><br><br>
+              
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+        	<div id="divProductId" style="display: none;"></div>
+          <button type="button" id="addToCart" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add To Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+<div id="divArtistId" th:text="${artistId}" style="display: none;">
+</div>
+</body>
+<script>
+$("#addToCart").click(function() {
+    var productID = $("#divProductId").html();
+    myFunction(productID);
+});
+
+function GetById(productID) {  
+    if (productID == "") {  
+        alert("Please Enter Id");  
+    } else {  
+        var myModal = $('#myModal');  
+        $.ajax({  
+            type: "POST",  
+            url: "/product/details",  
+            data:{
+	        	productId :productID
+	        },
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			success: function(response){
+	        	//alert(response);
+	        	var jason =jQuery.parseJSON(response);
+	        	var Name = jason.Name; 
+	        	var Description = jason.Description;
+	        	var Price = jason.Price;
+	        	var Url = jason.Url;
+                $('#lblName').html('Product Name: ' + Name);  
+                $('#lblDescription').html('Description : ' + Description);  
+                $('#lblPrice').html('Price : $' + Price); 
+                $('#divProductId').html(productID);
+                $("#myImage").attr('src',Url);
+                $('#cartModal').modal('show');  
+	        	
+	        },
+            error:function(xmlHttpRequest, textStatus, errorThrown){
+	        	console.log("error"+ errorThrown);
+	            alert("error");
+	        } 
+        });  
+    }  
+    return false;  
+}  
+
+function myFunction(productID) {
+	  //alert(productID);
+	  $.ajax({
+	        type: 'POST',
+	        url: "/addToCart",
+	        contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	        data:{
+	        	productId :productID
+	        },
+	        success: function(response){
+	        	//alert(response);
+	        	var jason =jQuery.parseJSON(response);
+	        	var status = jason.status; 
+	        	var count = jason.count;
+	        	$("#lblCartCount").text(count);
+	        	if(status=="error"){
+	        		alert("The product you added is reach to maximum amount");
+	        	}
+	        	
+	        	$('#cartModal').modal('hide');
+	        	
+	        },
+	        error:function(xmlHttpRequest, textStatus, errorThrown){
+	        	console.log("error"+ errorThrown);
+	            alert("error");
+	        } 
+	    });
+	  
+	  
+	}
+</script> 
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+	<div>
+	    <a id=userID style="display: none;" th:value="${user.userID}"></a>
+	</div>
+	
+	
+<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+
+		<div sec:authorize="isAuthenticated()" class = "sidebarRow">
+		<img th:src="${user.profileUrl}" class="profilePic" alt="profileIcon"/>
+			<h6>Welcome <span sec:authentication="principal.firstName">first
+				name</span></h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a th:href="@{'/home/subscribers/' + ${user.userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Subscribers <span th:text="${followers}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		
+	
+	<a th:href="@{'/home/following/' + ${user.userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">volunteer_activism</span>
+			<h6>Following <span th:text="${following}" style="font-weight:lighter;"></span></h6>
+		</div>
+	</a>
+	</div>
+	
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a href = "/artist/channel" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">music_video</span>
+					<h6>My Channel</h6>
+			</div>
+		</a>
+		
+		<a href = "/artist/manageshop" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">store</span>
+				<h6>My Store</h6>	
+			</div>
+		</a>
+			
+		<a href = "/dashboard" style="text-decoration: none; color:black">	
+		<div class="sidebarRow">
+			<span class="material-icons">dashboard</span>
+			<h6>My Dashboard</h6>
+		</div>
+		</a>
+		</div>
+		
+	</div>
+	
+<!-- 	sidebar ends -->
+	
+<!-- 	sidebar ends -->
+
+	<div class="feed">
+	
+<!-- 	story starts  -->
+		<div class="bannerProfile">
+
+				<div>
+					<label for="profile" style="margin-top: 150px;">
+						<img th:src="${user.ProfileUrl}" class="profile" alt="postPicture"/>
+						<div style="margin-left: 55%">
+						<h1>Success!</h1>
+						</div>
+					</label>
+					
+				</div>
+
+		</div>
+
+		<div class="messageSender">
+
+		
+<!--        Message sender ends    -->
+
+	
+	</div>
+	
+<div class="formBody" th:object=${user} >
+	<div class="form" style="left:-170px">
+			<input type="text" name="name" th:field="*{firstName}" required />
+			<label for="name" class="label-name">
+				<span class="content-name">First name</span>
+			</label>
+			</div>
+			<div class="form" style="left:-170px">
+			<input type="text" name="name" th:field="*{lastName}" required />
+			<label for="name" class="label-name">
+				<span class="content-name">Last name</span>
+			</label>
+			</div>
+			<div sec:authorize="hasAnyAuthority('Artist')">
+			<div class="form" style="left:-170px">
+			<input type="text" name="name" th:field="*{displayName}" required />
+			<label for="name" class="label-name">
+				<span class="content-name">Display Name</span>
+			</label>
+			</div>
+			</div>
+		<div class="form" style="left:-170px">
+			<input type="email" name="name" th:field="*{email}" required/>
+			<label for="name" class="label-name">
+				<span class="content-name">Email</span>
+			</label>
+		</div>
+		<a href="/home/"><button type="button" style="margin-right:350px">Home</button></a>
+		
+</div>
+
+	
+</div>
+
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+
+
+</body>
+
+</html>

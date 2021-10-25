@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+
+<head th:fragment="headerfiles">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Jam AD Project</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="https://fonts.googleapis.com/css2?family=Convergence&family=Lato:wght@300;400;700;900&family=Mukta:wght@300;400;600;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
+rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+</head>
+<body> 
+
+<!--  If user has not logged in yet -->
+<div th:fragment = "navbar"  sec:authorize="isAnonymous()">
+	<div class="header">
+		<div class="header_left">
+		<a th:href = "@{/home/}">
+			<img th:src="@{/images/JAM_LOGO.png}" class="" alt="JAM Logo"/>
+		</a>
+			<div class="header_input">
+				<span class="material-icons"> search </span>
+					<form id="searchjam" th:action="@{/search}" method="GET">				
+						<input id="searchterm" name="searchterm" type="text" placeholder="search JAM"/>
+						<input type="submit" style="display:none"/>
+					</form>
+			</div>
+		</div>
+		
+		<div class="header_middle">
+			<div th:if="${homeLinkActive != true}" class="header_option">
+			<a th:href = "@{/home/}">
+				<span id="navHomeButton" class="material-icons" data-toggle="tooltip" title="Home Page"> home </span>
+				</a>
+			</div>
+			
+			<div th:if="${homeLinkActive == true}" class="header_option active">
+			<a th:href = "@{/home/}">
+				<span id="navHomeButton" class="material-icons" data-toggle="tooltip" title="Home Page"> home </span>
+				</a>
+			</div>
+			
+			<div th:if="${feedLinkActive != true}" class="header_option">
+				<a th:href = "@{/home/feed}">
+				<span id="navFeedButton" class="material-icons" data-toggle="tooltip" title="Feed"> feed </span>
+				</a>
+			</div>
+			
+			<div th:if="${feedLinkActive == true}" class="header_option active">
+				<a th:href = "@{/home/feed}">
+				<span id="navFeedButton" class="material-icons" data-toggle="tooltip" title="Feed"> feed </span>
+				</a>
+			</div>
+			
+			<div th:if="${genericVideolinkActive != true}" class="header_option">
+				<a th:href = "@{/video/genericvideolandingpage}">
+					<span id="navVideoLandingPageButton" class="material-icons" data-toggle="tooltip" title="Video Landing Page"> videocam </span>
+				</a>
+			</div>
+			
+			<div th:if="${genericVideolinkActive == true}" class="header_option active">
+				<a th:href = "@{/video/genericvideolandingpage}">
+					<span id="navVideoLandingPageButton" class="material-icons" data-toggle="tooltip" title="Video Landing Page"> videocam </span>
+				</a>
+			</div>
+			
+			<div th:if="${genericMusiclinkActive != true}" class="header_option">
+				<a th:href = "@{/music/genericmusiclandingpage}">
+					<span id="navMusicLandingPageButton" class="material-icons" data-toggle="tooltip" title="Music Landing Page"> music_note </span>
+				</a>
+			</div>
+			
+			<div th:if="${genericMusiclinkActive == true}" class="header_option active">
+				<a th:href = "@{/music/genericmusiclandingpage}">
+					<span id="navMusicLandingPageButton" class="material-icons" data-toggle="tooltip" title="Music Landing Page"> music_note </span>
+				</a>
+			</div>
+			
+			<div th:if="${shopLinkActive != true}" class="header_option">
+				<a th:href = "@{/shop}">
+				<span id="navShoppingButton" class="material-icons" data-toggle="tooltip" title="Shopping Page"> shopping_bag </span>
+				</a>
+			</div>
+			
+			<div th:if="${shopLinkActive == true}" class="header_option active">
+				<a th:href = "@{/shop}">
+				<span id="navShoppingButton" class="material-icons" data-toggle="tooltip" title="Shopping Page"> shopping_bag </span>
+				</a>
+			</div>
+      
+			<div th:if="${cartLinkActive != true}" class="header_option">
+				<a  style="text-decoration: none" th:href = "@{/shoppingcart}">
+				<span id="navShoppingCartPageButton" class="material-icons" data-toggle="tooltip" title="Shopping Cart"> shopping_cart </span>
+				<span class='badge badge-warning' id='lblCartCount'  th:text="${count}"></span>
+				</a>
+			</div>
+			
+			<div th:if="${cartLinkActive == true}" class="header_option active">
+				<a  style="text-decoration: none" th:href = "@{/shoppingcart}">
+				<span id="navShoppingCartPageButton" class="material-icons" data-toggle="tooltip" title="Shopping Cart"> shopping_cart </span>
+				<span class='badge badge-warning' id='lblCartCount'  th:text="${count}"></span>
+				</a>
+			</div>
+
+		<script type="text/javascript">
+			$(function () {
+			    $("#navHomeButton").tooltip({placement: 'bottom'});
+			    $("#navFeedButton").tooltip({placement: 'bottom'});
+			    $("#navVideoLandingPageButton").tooltip({placement: 'bottom'});
+			    $("#navMusicLandingPageButton").tooltip({placement: 'bottom'});
+			    $("#navShoppingButton").tooltip({placement: 'bottom'});
+			    $("#navShoppingCartPageButton").tooltip({placement: 'bottom'});
+			});
+		</script>
+
+		</div>
+		
+		<div th:if = "${isWatchVideoBeforeLogin == true}" class="header_right">
+			<div>
+				<a th:href = "@{/video/redirectLogin/{mediaId}(mediaId = ${media.id})}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		<div th:if = "${isWatchMusicBeforeLogin == true}" class="header_right">
+			<div>
+				<a th:href = "@{/music/redirectLogin/{mediaId}(mediaId = ${media.id})}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		<div th:if = "${genericVideolinkActive == true}" class="header_right">
+			<div>
+				<a th:href = "@{/video/redirectLogin/genericvideolandingpage}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		<div th:if = "${genericMusiclinkActive == true}" class="header_right">
+			<div>
+				<a th:href = "@{/music/redirectLogin/genericmusiclandingpage}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		<div th:if = "${redirectFromMusicChannel == true}" class="header_right">
+			<div>
+				<a th:href = "@{/music/redirectLoginMusicChannel/{artistId}(artistId = ${artistId})}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		
+		<div th:if = "${redirectFromVideoChannel == true}" class="header_right">
+			<div>
+				<a th:href = "@{/video/redirectLoginVideoChannel/{artistId}(artistId = ${artistId})}"><button type="button">Login</button></a>
+			</div>
+		</div>
+		
+		<div th:if = "${isWatchVideoBeforeLogin != true and isWatchMusicBeforeLogin != true and genericVideolinkActive != true and genericMusiclinkActive != true and redirectFromMusicChannel != true and redirectFromVideoChannel != true}" class="header_right">
+			<div>
+				<a href="/login/"><button type="button">Login</button></a>
+			</div>
+		</div>
+	
+	</div>
+	
+		<a href="#" class="gotopbtn">
+	 <i class="fa fa-arrow-up"></i>
+	</a>
+	
+</div>
+
+<!--  If user has logged in -->
+
+<div th:fragment = "navbar"  sec:authorize="isAuthenticated()">
+	<div class="header">
+		<div class="header_left">
+		<a th:href = "@{/home/}">
+			<img th:src="@{/images/JAM_LOGO.png}" class="" alt="JAM Logo"/>
+		</a>
+			<div class="header_input">
+				<span class="material-icons"> search </span>
+				<form id="searchjam" th:action="@{/search}" method="GET">				
+					<input id="searchterm" name="searchterm" type="text" placeholder="search JAM"/>
+					<input type="submit" style="display:none"/>
+				</form>
+			</div>
+		</div>
+		
+		<div class="header_middle">
+			<div th:if="${homeLinkActive != true}" class="header_option">
+			<a th:href = "@{/home/}">
+				<span id="navHomeButton" class="material-icons" data-toggle="tooltip" title="Home Page"> home </span>
+				</a>
+			</div>
+			
+			<div th:if="${homeLinkActive == true}" class="header_option active">
+			<a th:href = "@{/home/}">
+				<span id="navHomeButton" class="material-icons" data-toggle="tooltip" title="Home Page"> home </span>
+				</a>
+			</div>
+			
+			
+			<div th:if="${feedLinkActive != true}" class="header_option">
+				<a th:href = "@{/home/feed}">
+					<span id="navFeedButton" class="material-icons" data-toggle="tooltip" title="Feed"> feed </span>
+				</a>
+			</div>
+			
+			<div th:if="${feedLinkActive == true}" class="header_option active">
+				<a th:href = "@{/home/feed}">
+					<span id="navFeedButton" class="material-icons" data-toggle="tooltip" title="Feed"> feed </span>
+				</a>
+			</div>
+			
+			
+			<div th:if="${loginVideolinkActive != true}" class="header_option">
+				<a th:href = "@{/video/loginvideolandingpage}">
+					<span id="navVideoLandingPageButton" class="material-icons" data-toggle="tooltip" title="Video Landing Page"> videocam </span>
+				</a>
+			</div>
+			
+			<div th:if="${loginVideolinkActive == true}" class="header_option active">
+				<a th:href = "@{/video/loginvideolandingpage}">
+					<span id="navVideoLandingPageButton" class="material-icons" data-toggle="tooltip" title="Video Landing Page"> videocam </span>
+				</a>
+			</div>
+			
+			<div th:if="${loginMusiclinkActive != true}" class="header_option">
+				<a th:href = "@{/music/loginmusiclandingpage}">
+					<span id="navMusicLandingPageButton" class="material-icons" data-toggle="tooltip" title="Music Landing Page"> music_note </span>
+				</a>
+			</div>
+			
+			<div th:if="${loginMusiclinkActive == true}" class="header_option active">
+				<a th:href = "@{/music/loginmusiclandingpage}">
+					<span id="navMusicLandingPageButton" class="material-icons" data-toggle="tooltip" title="Music Landing Page"> music_note </span>
+				</a>
+			</div>
+			
+			<div th:if="${shopLinkActive != true}" class="header_option">
+				<a th:href = "@{/shop}">
+				<span id="navShoppingButton" class="material-icons" data-toggle="tooltip" title="Shopping Page"> shopping_bag </span>
+				</a>
+			</div>
+      
+      		<div th:if="${shopLinkActive == true}" class="header_option active">
+				<a th:href = "@{/shop}">
+				<span id="navShoppingButton" class="material-icons" data-toggle="tooltip" title="Shopping Page"> shopping_bag </span>
+				</a>
+			</div>
+      
+			<div th:if="${cartLinkActive != true}" class="header_option">
+				<a  style="text-decoration: none" th:href = "@{/shoppingcart}">
+				<span id="navShoppingCartPageButton" class="material-icons" data-toggle="tooltip" title="Shopping Cart"> shopping_cart </span>
+				<span class='badge badge-warning' id='lblCartCount'  th:text="${count}"></span>
+				</a>
+			</div>
+			
+			<div th:if="${cartLinkActive == true}" class="header_option active">
+				<a  style="text-decoration: none" th:href = "@{/shoppingcart}">
+				<span id="navShoppingCartPageButton" class="material-icons" data-toggle="tooltip" title="Shopping Cart"> shopping_cart </span>
+				<span class='badge badge-warning' id='lblCartCount'  th:text="${count}"></span>
+				</a>
+			</div>
+			
+			<!-- <div class="header_option">
+				<button class="addShoppingCartIcon btn" onclick="location.href='/shoppingcart'">
+				<i class="fa fa-cart-plus"style="font-size:24px"></i><span class='badge badge-warning' id='lblCartCount' th:text="${count}"></span>
+				</button>
+			</div> -->
+
+		</div>
+		
+		<script type="text/javascript">
+			$(function () {
+			    $("#navHomeButton").tooltip({placement: 'bottom'});
+			    $("#navFeedButton").tooltip({placement: 'bottom'});
+			    $("#navVideoLandingPageButton").tooltip({placement: 'bottom'});
+			    $("#navMusicLandingPageButton").tooltip({placement: 'bottom'});
+			    $("#navShoppingButton").tooltip({placement: 'bottom'});
+			    $("#navShoppingCartPageButton").tooltip({placement: 'bottom'});
+			});
+		</script>
+		
+		<div th:if="${user != null}" class="header_right">
+			<div class="header_info" style="margin-right: 1rem;">
+				<img th:src="${user.profileUrl}" class="" alt="profileIcon"/>
+				<h5> <span sec:authentication="principal.fullName">first
+				name</span></h5>
+			</div>
+			<div class="dropdown">
+			<button class ="dropbtn"><span class="material-icons"> expand_more</span></button>
+				<div class="dropdown-content">
+   					 <a href="/home/edituser">Edit Profile</a>
+<!--    					 <div sec:authorize="hasAnyAuthority('Customer')"> -->
+<!--    					 <a href="/home/updateuser">Be an Artist</a> -->
+<!--    					 </div> -->
+   					 <a href="/purchasehistory">Purchase<br><span>History</span></a>
+    				 <a href="/logout"><button type="button">Logout</button></a>
+  				</div>
+			</div>
+		</div>
+
+		<div th:if="${user == null and profileUrl != null}" class="header_right">
+			<div class="header_info" style="margin-right: 1rem;">
+				<img th:src="${profileUrl}" class="" alt="profileIcon"/>
+				<h5> <span sec:authentication="principal.fullName">first
+				name</span></h5>
+			</div>
+			
+			<div class="dropdown">
+			<button class ="dropbtn"><span class="material-icons"> expand_more</span></button>
+				<div class="dropdown-content">
+   					 <a href="/home/edituser">Edit Profile</a>
+   					 <div sec:authorize="hasAnyAuthority('Customer')">
+   					 <a href="/home/updateuser">Be an Artist</a>
+   					 </div>
+   					 <a href="/purchasehistory">Purchase History</a>
+    				 <a href="/logout"><button type="button">Logout</button></a>
+  				</div>
+			</div>
+		</div>
+	
+	</div>
+			<a href="#" class="gotopbtn">
+	 <i class="fa fa-arrow-up"></i>
+	</a>
+</div>
+
+ <nav th:fragment="watchVideosNavBar" class="navbar jamHeaderUser">
+ 	<img th:src="@{/images/JAM_LOGO.png}" class="logo3">
+ 	<form class="navbar-form form-inline" th:action="@{/home/searchresults}" method="post">
+        <div class="input-group userPageSearchBox">
+             <input type="text" id="search" name ="searchTerm" class="form-control" placeholder="Search">   
+        </div>
+        <button type="submit" value="Search" class="userPageSearchButton"><i class="material-icons">&#xE8B6;</i></button>
+    </form>	
+   
+    <img th:src="@{/images/brucelee.PNG}" class="userPageProfilePhoto" alt="User's Profile Photo">
+ </nav>
+
+<div th:fragment="footer" class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+
+</body>
+</html>

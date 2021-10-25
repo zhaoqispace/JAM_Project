@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> </head>
+<body>
+  <img th:src="@{/images/JAM_LOGO.png}" class="logo" alt="JAM Logo">
+ <nav class="navbar jamHeader">
+</nav>
+
+<div class="signUpBody">
+ 	<div id="trendyVideoIntro" class="mt-5 h3">Trending</div>
+ 	
+ 	<video class="col-md-4 col-lg-5 h-50 signUpPageVideo" width="400" height="200" controls>
+ 		<source th:src="@{/videos/samplevideo.mp4}" type="video/mp4">
+ 	</video>
+ 	
+ 	<br>
+ 	<a id="proceedWithoutSignIn" class="mt-4" th:href="@{'/login/'}">Proceed to login and start browsing the most popular videos now!</a>
+ 	
+	 <div id="signUpForm">
+	 	<label id="signUpHeader"><b>Congratulations <span th:text="${user.firstName}"></span>! You are now part of the Jam family!</b></label>
+	</div>
+</div>
+
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+	
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+	<div>
+		   <a id=userID style="display: none;" th:value="${user.userID}"></a>
+	</div>
+	
+<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+
+		<div sec:authorize="isAuthenticated()" class = "sidebarRow">
+		<img th:src="${vieweeProfileUrl}" class="profilePic" alt="profileIcon"/>
+			<h6><span th:text="${vieweeFullName}">fullname
+				name</span></h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+	<div sec:authorize="hasAnyAuthority('Artist')">
+		<a th:href="@{'/home/subscribers/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Subscribers <span th:text="${followers}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		
+	<a th:href="@{'/home/following/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">volunteer_activism</span>
+			<h6>Following <span th:text="${following}" style="font-weight:lighter;"></span></h6>
+		</div>
+	</a>
+	</div>
+		
+		<a th:href="@{'/video/viewartistvideochannel/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">ondemand_video</span>
+			<h6><span th:text="${vieweeFullName} + ${'''s'}  + ' Video Channel'">Vid Channel</span></h6>
+		</div>
+		</a>
+		
+		<a th:href="@{'/music/viewartistmusicchannel/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">headset</span>
+			<h6><span th:text="${vieweeFullName} + ${'''s'}  + ' Music Channel'">Music Channel</span></h6>
+		</div>
+		</a>
+	
+		<a th:href="@{'/carthometab/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">redeem </span>
+			<h6><span th:text="${vieweeFullName} + ${'''s'}  + ' Shop'">Shop</span></h6>
+		</div>
+		</a>
+
+		<div sec:authorize="hasAnyAuthority('Artist')">
+		<a href = "/artist/channel" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">music_video</span>
+					<h6>My Channel</h6>
+			</div>
+		</a>
+		
+		<a href = "/artist/manageshop" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">store</span>
+				<h6>My Store</h6>	
+			</div>
+		</a>
+		
+		<a href = "/dashboard" style="text-decoration: none; color:black">
+		<div class="sidebarRow">
+			<span class="material-icons">dashboard</span>
+			<h6>My Dashboard</h6>
+		</div>
+		</a>
+		</div>
+		
+	</div>
+	
+<!-- 	sidebar ends -->
+	
+<!-- 	sidebar ends -->
+
+	<div class="feed">
+	
+<!-- 	story starts  -->
+		<div class="bannerProfile">
+			<div class="cover">
+				<img th:src="${bannerUrl}" class="" alt="postPicture"/>
+			</div>
+			<div>
+				<img th:src="${vieweeProfileUrl}" class="profile" alt="postPicture"/>
+			</div>
+			
+			<div>
+			
+		</div>
+<!-- 		story ends -->
+		
+
+<!-- post starts  -->
+
+
+		<div class="post">
+		<div th:each="Post:${posts}">
+			<div class = "post_Top">
+				<img th:src="${vieweeProfileUrl}" class="profilePic" alt="profileIcon"/>
+				
+				<div class="post_Top_Info">
+					<h5><span th:text="${vieweeFullName}"></span></h5>
+					<p th:text="${Post.dateTime}">Date time</p>
+				</div>
+			</div>
+			
+			<div class="post_Bottom">
+				<p th:text="${Post.Content}">Message</p>
+			</div>
+			
+			<div class="post_Options">
+				
+				</div>
+
+<!-- post ends -->
+
+	
+	</div>
+	
+</div>
+
+	<script type="text/javascript" th:src="@{/js/posts_ajax.js}"></script>
+</body>
+
+</html>

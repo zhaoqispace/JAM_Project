@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymelead-extras-springsecurity5">
+<head th:replace="Fragments/layout.html :: headerfiles">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<meta charset="ISO-8859-1">
+<title>My Channels</title>
+
+</head>
+<body>
+
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+		<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+
+		<div sec:authorize="isAuthenticated()" class = "sidebarRow">
+		<img th:src="${profileUrl}" class="profilePic" alt="profileIcon"/>
+			<h6>Welcome <span sec:authentication="principal.firstName">first
+				name</span></h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+		<a th:href="@{'/home/subscribers/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Subscribers <span th:text="${followers}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		
+		<a th:href="@{'/home/following/' + ${userID}}" style="text-decoration: none; color:black" id="userID">
+		<div class="sidebarRow">
+			<span class="material-icons">volunteer_activism</span>
+			<h6>Following <span th:text="${following}" style="font-weight:lighter;"></span></h6>
+		</div>
+		</a>
+		
+		<a href = "/artist/channel" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">music_video</span>
+					<h6>My Channel</h6>
+			</div>
+		</a>
+		
+		<a href = "/artist/manageshop" style="text-decoration: none; color:black">
+			<div class="sidebarRow">
+				<span class="material-icons">store</span>
+				<h6>My Store</h6>	
+			</div>
+		</a>
+		
+		<a href = "/dashboard" style="text-decoration: none; color:black">
+		<div class="sidebarRow">
+			<span class="material-icons">dashboard</span>
+			<h6>My Dashboard</h6>
+		</div>
+		</a>
+		
+	</div>
+	
+
+	
+	<div>
+	
+	<h1>Channel List</h1>
+
+	<div class="container">
+		<div class="row">
+			<div class="container">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Channel Name</th>
+							<th>Description</th>
+							<th>Channel Type</th>
+							<th>Created On</th>
+							<th>Videos</th>
+							<th>Music</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr th:each="ChannelDTO:${ChannelDTOlist}">
+							<td> <a th:text=${ChannelDTO.channel.channelName} th:href="@{/artist/channel/{mediatype} (mediatype = ${ChannelDTO.channel.mediaType})}"></a></td>
+							<td th:text=${ChannelDTO.channel.channelDescription}></td>
+							<td th:text=${ChannelDTO.channel.mediaType}></td>
+							<td th:text=${ChannelDTO.channel.createdOn}></td>
+							<td th:text=${ChannelDTO.VideoCount}></td>
+							<td th:text=${ChannelDTO.MusicCount}></td>
+							<td>
+								<button type="button" class="btn btn-info btn-lg"
+									data-bs-toggle="modal" data-bs-target="#myModal"
+									th:attrappend="data-bs-target=${ChannelDTO.channel.channelID}">Edit Channel</button>
+
+								<div class="modal fade" id="myModal" role="dialog"
+									th:attrappend="id=${ChannelDTO.channel.channelID}">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1>Edit Channel</h1>
+											</div>
+											<form action="#" th:action="@{/artist/channel/editchannel}"
+												method="post" modelAttribute="channel">
+												<div class="modal-body">
+												
+												<input id="channelID"  name="channelID" type="hidden"
+                                                           placeholder="channelID" class="form-control input-md"
+                                                           th:value="${ChannelDTO.channel.channelID}"/>
+
+													<label>Name*:</label> 
+													<input id="channelName" 
+														name="channelName" type="text" required placeholder="Name"
+														class="form-control input-md"
+														th:value="${ChannelDTO.channel.channelName}" /> 
+														
+													<label>Description:</label>
+													<input id="channelDescription"  name="channelDescription" type="text"
+														placeholder="channelDescription" class="form-control input-md"
+														th:value="${ChannelDTO.channel.channelDescription}" />
+
+
+												</div>
+
+												<div class="modal-footer">
+													<button type="submit">Submit</button>
+													<button type="button" class="btn btn-default"
+														data-bs-dismiss="modal">Close</button>
+
+													<div th:if="${message}" th:text="${message}"
+														th:class="${'alert ' + alertClass}" /></div>
+												</div>
+											</form>
+
+
+
+										</div>
+
+									</div>
+								</div>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</div>
+		</div>
+
+
+</body>
+
+
+
+</html>

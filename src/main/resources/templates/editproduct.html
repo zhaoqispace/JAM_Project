@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles">
+</head>
+<body style="padding-bottom: 35px">
+	<div th:replace="Fragments/layout.html :: navbar"></div>
+
+	<div align="center">
+		&nbsp;
+		<h1>Edit Product</h1>
+		<form action="#" th:object="${product}" enctype="multipart/form-data"
+			th:action="@{/artist/saveproduct}" method="post">
+			<fieldset>
+				<input type="hidden" th:field="*{productID}">
+			</fieldset>
+			<fieldset>
+				<input type="hidden" th:field="*{productUrl}">
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				Product Name: <input type="text" required th:field="*{productName}">
+				<p th:if="${#fields.hasErrors('productName')}"
+					th:errors="*{productName}" style="color: red"></p>
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				Product Price: <input type="number" min="0" step="0.01" required
+					th:field="*{productPrice}">
+				<p th:if="${#fields.hasErrors('productPrice')}"
+					th:errors="*{productPrice}" style="color: red"></p>
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				Product Quantity: <input type="number" min="0" step="1" required
+					th:field="*{productQty}">
+				<p th:if="${#fields.hasErrors('productQty')}"
+					th:errors="*{productQty}" style="color: red"></p>
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				Product Category: <select required th:value="*{productCategory}"
+					name="productCategory">
+					<th:block>
+						<option th:each="category : ${categories}"
+							th:value="${category.key}" th:text="${category.value}"
+							th:selected="${category.key==product.productCategory}">
+						</option>
+					</th:block>
+				</select>
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				Product Description:
+				<textarea required th:field="*{productDes}"></textarea>
+				<p th:if="${#fields.hasErrors('productDes')}"
+					th:errors="*{productDes}" style="color: red"></p>
+
+			</fieldset>
+			&nbsp;
+			<fieldset>
+
+				<p>
+					Product Image: <input type="file" accept="image/*" name="file"
+						id="file" onchange="loadFile(event)">
+				</p>
+				<p>
+					<img id="output" th:src="*{productUrl}" width="30%" />
+				</p>
+			</fieldset>
+			&nbsp;
+			<fieldset>
+				<button type="submit" >Save</button>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="footer">
+		<p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+	</div>
+
+</body>
+
+<script>
+	var loadFile = function(event) {
+		var image = document.getElementById('output');
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+</script>
+</html>

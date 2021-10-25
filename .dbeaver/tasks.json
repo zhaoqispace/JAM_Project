@@ -1,0 +1,23 @@
+{
+	"61f9aaf2-2f1e-46e7-b1fa-ed253e9056df": {
+		"task": "mysqlDatabaseRestore",
+		"label": "asd",
+		"description": "asd",
+		"createTime": "202108261937",
+		"updateTime": "202108261937",
+		"state": {
+			"project": "JAM Ver2",
+			"dataSource": "mysql8-17b4e490417-7eb98a1e37813afa",
+			"databaseObjects": [
+				"mysql8-17b4e490417-7eb98a1e37813afa/asd"
+			],
+			"clientHomeName": "C:\\Program Files\\MySQL\\MySQL Server 8.0",
+			"inputFile": "C:\\Users\\Alejandro\\OneDrive\\Desktop\\adfakedatabaseversion3.sql",
+			"MySQL.script..import": "true",
+			"MySQL.script.logLevel": "Normal",
+			"MySQL.script.noBeep": "false",
+			"MySQL.script.disableForeignKey": "false",
+			"MySQL.overrideNativeCredentials": "false"
+		}
+	}
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="Fragments/layout.html :: headerfiles"> 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>   
+   <body style="padding-bottom: 30px">
+   <div th:replace="Fragments/layout.html :: navbar"></div>  
+     <th:block th:if="${cartForm == null||cartForm.isEmpty()}">
+     <div class="center">
+         <h3>There is no items in Cart</h3>
+      </div>
+      </th:block>
+      
+      <th:block th:if="${cartForm != null &&!cartForm.isEmpty()}">
+      <div class="cartIntroSection1">
+       <h2 style="font-weight: bold;" class = "col-12 text-center">YOUR BAG</h2>
+      <div class="row">
+        <div class="col-lg-8 col-sm-8 col-xs-12">
+          <table class="table">
+         <form method="POST" th:object="${cartForm}" th:action="@{/shoppingcart}">
+          
+               <div class="product-preview-container"
+                        th:each="cartLineInfo, varStatus : ${cartForm}">
+            <tr>
+              <td><img th:src="${cartLineInfo.key.product.productUrl}" width="190px"></td>
+              <td>
+                <b style="color: #000;font-size:16px; font-weight: 600" th:utext="${cartLineInfo.key.product.productName}"></b>
+                <p style="font-size: 14px;"><!-- CORE BLACK / CORE BLACK / CORE BLACK<br>
+                SIZE: M 7.5 / W 8.5<br> -->
+                PRICE: <span th:utext="'$' + ${#numbers.formatDecimal(cartLineInfo.key.product.productPrice,0,2)}"></span>
+                </p>
+                
+                <p th:if="${cartLineInfo.value !=0 && cartLineInfo.value ==1 }">
+                <span th:text = "${cartLineInfo.value} +' item is out of Stock!'"></span>
+                </p>
+                
+                <p th:if="${cartLineInfo.value !=0 && cartLineInfo.value >1 }">
+                <span th:text = "${cartLineInfo.value} +' items are out of Stock!'"></span>
+                </p>
+               
+                <a th:href="@{|/shoppingCartRemoveProduct?id=${cartLineInfo.key.product.productID}|}"  style="margin-right: 10px;"> Remove</a>
+                
+              </td>
+              <td> <input type="text"  th:value="${cartLineInfo.key.quantity}"  th:onchange="'javascript:updateCartItemQuantity( \''+${cartLineInfo.key.product.productID}+'\' , '+this.value+');'" class="form-control" style="width: 50px; height: 35px;">
+              
+              </td>
+              <td><span th:utext="'$' + ${#numbers.formatDecimal(cartLineInfo.key.product.productPrice,0,2)}"></span></td>
+            </tr>
+              </div>
+
+            <tr>
+              <td></td>
+            </tr>
+            
+            
+         </form>
+          </table>
+        </div> <!-- -----col-lg-8 col-sm-8 col-xs-12 end --- -->
+        <div class="col-lg-4 col-sm-4 col-xs-12">
+          <h5 style="font-weight: bold;">SUMMARY</h5>
+          <table class="table cart-subtotal">
+            <tr>
+              <td>
+                Subtotal <br><br>
+                Quantity <br><br>
+                Estimated Shipping & Handling<br><br>
+                Estimated TAX
+              </td>
+              <td>
+              <span th:text="'$' + ${#numbers.formatDecimal(totalAmount,0,2)}"></span><br><br>
+              [<span th:utext="${totalQuantity}"></span> ITEMS]<br><br>
+              FREE<br><br>
+              $0.00
+            </td> 
+         
+            <tr>
+              <td><b>TOTAL</b></td>
+              <td><b><span th:text="'$' + ${#numbers.formatDecimal(totalAmount,0,2)}"></span></b></td> 
+            </tr>
+          </table>
+          
+          <a th:href="@{/checkout}" class="btn btn-dark btn-lg btn-block">CHECKOUT <span class="fa fa-arrow-right" style="margin-left: 9px;"></span></a>
+          
+        </div>
+      </div>
+    </div>
+    </th:block>
+   <div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+   </body>
+   <script>
+   function updateCartItemQuantity(sku, quantity)
+   {
+	   $.ajax({
+	        type: 'PUT',
+	        url: "/updatecartitemqty",
+	        contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+	        data:{
+	        	productId :sku,
+	        	quantity : quantity
+	        },
+	        success: function(response){
+	        	var jason =jQuery.parseJSON(response);
+	        	var count = jason.uncount;
+	        	if(count>0){
+	        		if(count==1){
+	        			alert(count +" item is out of Stock!");
+	        		}else{
+		        		alert(count +" items are out of Stock!");
+		        	}
+	        	}
+	        	location.href = '/shoppingcart' 
+	        },
+	        error:function(xmlHttpRequest, textStatus, errorThrown){
+	        	console.log("error"+ errorThrown);
+	            alert("error");
+	        } 
+	    });
+   }
+   </script>
+</html>

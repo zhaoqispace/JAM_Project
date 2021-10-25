@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Home page</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+</head>
+<body>
+	<div th:replace="Fragments/layout.html :: navbar">
+	</div>
+	
+<div class="mainBody">
+<!-- 	Sidebar  start -->
+	
+	<div class = "sidebar">
+	
+		<div class = "sidebarRow">
+		<img th:src="@{/images/brucelee.png}" class="profilePic" alt="profileIcon"/>
+			<h6>User</h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">local_hospital</span>
+			<h6>Covid 19 news</h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">people</span>
+			<h6>Followers</h6>
+		</div>
+		
+		<div class="sidebarRow">
+			<span class="material-icons">expand_more</span>
+			<h6>More</h6>
+		</div>
+	</div>
+	
+<!-- 	sidebar ends -->
+
+	<div class="feed">
+	
+<!-- 	story starts  -->
+		<div class="storyReel">
+			<div style="background-image: url(https://later.com/blog/wp-content/uploads/2019/01/How-Often-to-Post-to-Facebook-Stories.png) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+			
+			<div style="background-image: url(https://www.wishpond.com/wp-content/uploads/sites/3/2020/06/facebook-stories-to-Instagram.jpg) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+			
+	
+			<div style="background-image: url(https://later.com/blog/wp-content/uploads/2019/01/How-Often-to-Post-to-Facebook-Stories.png) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+			
+			<div style="background-image: url(https://www.wishpond.com/wp-content/uploads/sites/3/2020/06/facebook-stories-to-Instagram.jpg) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+			
+			<div style="background-image: url(https://later.com/blog/wp-content/uploads/2019/01/How-Often-to-Post-to-Facebook-Stories.png) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+			
+			<div style="background-image: url(https://www.wishpond.com/wp-content/uploads/sites/3/2020/06/facebook-stories-to-Instagram.jpg) " class="story">
+				<img th:src="@{/images/estelle.PNG}" class="profilePic" alt="profileIcon"/>
+				<h5>User</h5>
+			</div>
+		</div>
+<!-- 		story ends -->
+		
+<!-- 		Message sender starts  -->
+		<div class="messageSender">
+			<div class="messageSender_Top">
+				<img th:src="@{/images/brucelee.png}" class="profilePic" alt="profileIcon"/>
+				
+				<form>
+					<input type="text" class ="messageSender_input" placeholder="Hello say something">
+				</form>
+		
+			</div>
+			
+			<div class="messageSender_Bottom">
+				<div class="messageSender_option">
+					<span style="color: red" class="material-icons">live_tv</span>
+					<h5>Live</h5>
+				</div>
+				<div class="messageSender_option">
+					<span style="color: orange" class="material-icons">videocam</span>
+					<h5>Upload video</h5>
+				</div>
+				<div class="messageSender_option">
+					<span style="color: green" class="material-icons">photo_library</span>
+					<h5>Upload photo</h5>
+				</div>
+			</div>
+		</div>
+<!--        Message sender ends    -->
+
+<!-- post starts  -->
+
+		<div class="post">
+			<div class = "post_Top">
+				<img th:src="@{/images/brucelee.png}" class="profilePic" alt="profileIcon"/>
+				
+				<div class="post_Top_Info">
+					<h5>User</h5>
+					<p>18 August at 15:00</p>
+				</div>
+			</div>
+			
+			<div class="post_Bottom">
+				<p>Message</p>
+			</div>
+			
+			<div class="post_Image">
+				<img th:src="@{/images/samplebanner.jpg}" class="postPic" alt="postPicture"/>
+			</div>
+			
+			<div class="post_Options">
+				<div class="post_Option">
+					<span class="material-icons">thumb_up</span>
+					<p>Like</p>
+				</div>
+					
+				<div class="post_Option">
+					<span class="material-icons">chat_bubble_outline</span>
+					<p>Comment</p>
+				</div>
+					
+				<div class="post_Option">
+					<span class="material-icons">near_me</span>
+					<p>Share</p>
+				</div>
+			</div>
+			
+		</div>
+
+<!-- post ends -->
+
+	
+	</div>
+	
+</div>
+
+
+	
+</body>
+</html>

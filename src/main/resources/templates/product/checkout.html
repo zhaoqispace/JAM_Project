@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles"> 
+</head>
+<body style="padding-bottom: 30px">
+  <div th:replace="Fragments/layout.html :: navbar"></div>
+<section class="pt-5 pb-12">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+
+            <!-- Heading -->
+            <h3 class="mb-4">Checkout</h3>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-7">
+
+            <!-- Form -->
+            <form th:object="${newPayment}" enctype="multipart/form-data" th:action="@{/placeorder}" method="post">
+
+              <!-- Heading -->
+              <h6 class="mb-7">Billing Details</h6>
+
+              <!-- Billing details -->
+              <div class="row mb-9">
+                <div class="col-12 col-md-6">
+				<fieldset>
+					<input type="hidden" th:field="*{paymentID}">
+				</fieldset>
+                  <!-- First Name -->
+                  <div class="form-group">
+                    <label for="checkoutBillingFirstName">First Name *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingFirstName" type="text" required th:field="*{firstName}">
+                    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12 col-md-6">
+
+                  <!-- Last Name -->
+                  <div class="form-group">
+                    <label for="checkoutBillingLastName">Last Name *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingLastName" type="text" required th:field="*{lastName}">
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12">
+
+                  <!-- Email -->
+                  <div class="form-group">
+                    <label for="checkoutBillingEmail">Email *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingEmail" type="email" required th:field="*{email}">
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12">
+
+                  <!-- Country -->
+                  <div class="form-group">
+                    <label for="checkoutBillingCountry">Country *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingCountry" type="text" required th:field="*{country}">
+                    <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12">
+
+                  <!-- Address Line 1 -->
+                  <div class="form-group">
+                    <label for="checkoutBillingAddress">Address Line 1 *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingAddress" type="text" required th:field="*{address}">
+                    <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></p>
+                  </div>
+
+                </div>
+              
+                <div class="col-12 col-md-6">
+
+                  <!-- Town / City -->
+                  <div class="form-group">
+                    <label for="checkoutBillingTown">Town / City *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingTown" type="text" required th:field="*{city}">
+                    <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12 col-md-6">
+
+                  <!-- ZIP / Postcode -->
+                  <div class="form-group">
+                    <label for="checkoutBillingZIP">ZIP / Postcode *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingZIP" type="text" required th:field="*{postalCode}">
+                    <p th:if="${#fields.hasErrors('postalCode')}" th:errors="*{postalCode}" style="color: red"></p>
+                  </div>
+
+                </div>
+                <div class="col-12">
+
+                  <!-- Mobile Phone -->
+                  <div class="form-group mb-0">
+                    <label for="checkoutBillingPhone">Mobile Phone *</label>
+                    <input class="form-control form-control-sm" id="checkoutBillingPhone" type="tel" required th:field="*{phoneNumber}">
+                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color: red"></p>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Heading -->
+              <h6 class="mb-7">Payment Details</h6>
+              <div class="my-3">
+            <div class="form-check">
+              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+              <label class="form-check-label" for="credit">Credit card</label>
+            </div>
+            <div class="form-check">
+              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+              <label class="form-check-label" for="debit">Debit card</label>
+            </div>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Name on card</label>
+              <input type="text" class="form-control form-control-sm" id="cc-name" required th:field="*{nameOnCard}">
+             <!--  <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback">
+                Name on card is required
+              </div> -->
+              <p th:if="${#fields.hasErrors('nameOnCard')}" th:errors="*{nameOnCard}" style="color: red"></p>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Credit card number</label>
+              <input type="text" class="form-control form-control-sm" id="cc-number" required th:field="*{creditNumber}">
+             
+              <p th:if="${#fields.hasErrors('creditNumber')}" th:errors="*{creditNumber}" style="color: red"></p>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control form-control-sm" id="cc-expiration" required th:field="*{expiration}">
+             
+              <p th:if="${#fields.hasErrors('expiration')}" th:errors="*{expiration}" style="color: red"></p>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control form-control-sm" id="cc-cvv" required th:field="*{cvv}">
+             
+              <p th:if="${#fields.hasErrors('cvv')}" th:errors="*{cvv}" style="color: red"></p>
+            </div>
+          </div>
+          <hr class="my-4">
+          <!-- Button -->
+            <button class="btn btn-block btn-dark btn-lg">
+              Place Order
+            </button>
+
+            </form>
+
+          </div>
+          <div class="col-12 col-md-5 col-lg-4 offset-lg-1">
+
+            <!-- Heading -->
+            <h6 class="mb-7">Order Items(<span th:utext="${cartForm.quantityTotal}"></span>)</h6>
+
+            <!-- Divider -->
+            <hr class="my-7">
+
+            <!-- List group -->
+            <ul class="list-group list-group-lg list-group-flush-y list-group-flush-x mb-7" th:each="cart: ${cartForm.cartDetails}">
+            
+              <li class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col-4">
+
+                    <!-- Image -->
+                    <a href="product.html">
+                      <img th:src="${cart.product.productUrl}" alt="..." class="img-fluid">
+                    </a>
+
+                  </div>
+                  <div class="col">
+
+                    <!-- Title -->
+                    <p class="mb-4 font-size-sm font-weight-bold">
+                      <a class="text-body" th:text="${cart.product.productName}"></a> <br>
+                      <span class="text-muted" th:text="${cart.quantity}" ></span>
+                    </p>
+
+                    <!-- Text -->
+                    <div class="font-size-sm text-muted">$<span th:utext="${#numbers.formatDecimal(cart.product.productPrice* cart.quantity,0,2)}"></span>
+                    </div>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Card -->
+            <div class="card mb-9 bg-light">
+              <div class="card-body">
+                <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x">
+                  <li class="list-group-item d-flex">
+                    <span>Subtotal</span> <span class="ml-auto font-size-sm" th:text="'$' + ${#numbers.formatDecimal({cartForm.amountTotal},0,2)}"></span>
+                  </li>
+                  <li class="list-group-item d-flex">
+                    <span>Tax</span> <span class="ml-auto font-size-sm">$0.00</span>
+                  </li>
+                  <li class="list-group-item d-flex">
+                    <span>Shipping</span><span class="ml-auto font-size-sm">FREE</span>
+                  </li>
+                  <li class="list-group-item d-flex font-size-lg font-weight-bold">
+                    <span>Total</span> <span class="ml-auto" th:text="'$' + ${#numbers.formatDecimal({cartForm.amountTotal},0,2)}">$97.00</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="mb-7 font-size-xs text-gray-500">
+              Your personal data will be used to process your order, support
+              your experience throughout this website, and for other purposes
+              described in our privacy policy.
+            </p>
+
+            
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+<div class="footer">
+  <p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+</div>
+</body>
+</html>

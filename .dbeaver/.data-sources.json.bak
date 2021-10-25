@@ -1,0 +1,57 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-17b4e490417-7eb98a1e37813afa": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "localhost",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"url": "jdbc:mysql://localhost:3306/",
+				"home": "C:\\Program Files\\MySQL\\MySQL Server 8.0",
+				"type": "dev",
+				"properties": {
+					"connectTimeout": "20000",
+					"allowPublicKeyRetrieval": "TRUE"
+				},
+				"auth-model": "native"
+			},
+			"custom-properties": {
+				"database.meta.separate.connection": "false"
+			}
+		},
+		"mysql8-17b671e59c2-3ce424700bbb40b6": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "AD_Data_Ale",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "172.104.191.81",
+				"port": "3306",
+				"database": "AD_Data_Ale",
+				"url": "jdbc:mysql://172.104.191.81:3306/AD_Data_Ale",
+				"home": "C:\\Program Files\\MySQL\\MySQL Server 8.0",
+				"type": "dev",
+				"properties": {
+					"connectTimeout": "20000"
+				},
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}

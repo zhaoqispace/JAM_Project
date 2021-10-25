@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="Fragments/layout.html :: headerfiles">
+</head>
+<body style="padding-bottom: 35px">
+	<div th:replace="Fragments/layout.html :: navbar"></div>
+
+	<!-- PRODUCTS ON SALE NAVBAR -->
+	<section class="productsOnSaleSection">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-12 col-md">
+					&nbsp;
+					<!-- Product Categories -->
+					<nav class="navbar spaceEvenly">
+						<a th:if="${category} == 'allProducts'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/allproducts"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">All
+							Products</a> <a th:unless="${category} == 'allProducts'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/allproducts">All Products</a> <a
+							th:if="${category} == 'musicCollection'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/musiccollections"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Music
+							Collection</a> <a th:unless="${category} == 'musicCollection'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/musiccollections">Music Collection</a> <a
+							th:if="${category} == 'merchandise'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/merchandise"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Merchandise</a>
+
+						<a th:unless="${category} == 'merchandise'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/merchandise">Merchandise</a> <a
+							th:if="${category} == 'clothing'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/clothing"
+							style="color: #ff6f61; border-bottom: 1px solid #ff6f61">Clothing</a>
+
+						<a th:unless="${category} == 'clothing'"
+							class="nav-link active blackFontText h6" data-toggle="tab"
+							href="/shop/clothing">Clothing</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="productsContentSection2">
+
+		<div class="container">
+
+			<div class="row col-lg-11 mx-auto">
+
+				<th:block th:each="productAndCount: ${allProductsAndCountShop}">
+					<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100">
+							<a class="modalclickable"
+								th:onclick="'javascript:GetById(' + ${productAndCount.key.productID} + ')'">
+								<img th:src="${productAndCount.key.productUrl}"
+								class="card-img-top productPhotoSize">
+							</a>
+
+							<!-- Collapse -->
+							<div class="card-collapse-parent">
+
+								<!-- Body -->
+								<div class="card-body px-0 bg-white">
+									<div class="row">
+										<div class="col-4">
+											<img class="rounded-circle" width="100%"
+												style="padding-left: 30%; padding-bottom: 10%"
+												th:src="${productAndCount.key.productUser.profileUrl}">
+										</div>
+										<div class="col">
+											<h5>
+												<a
+													th:href="'/carthometab/' + ${productAndCount.key.productUser.userID}"
+													style="text-decoration: none; color: black"> <strong
+													th:text="${productAndCount.key.productUser.firstName + ' ' +
+												productAndCount.key.productUser.lastName}">
+												</strong>
+												</a>
+											</h5>
+										</div>
+									</div>
+
+									<!-- Heading -->
+
+									<div class="mb-1 productHeading h6"
+										th:text="${productAndCount.key.productName}"></div>
+
+									<!-- Quantity Sold -->
+									<div class="quantitySold" style="padding-right: 10%"
+										th:text="${productAndCount.value}==null?'0 sold in the past week' : ${productAndCount.value} + ' sold in the past week'"></div>
+
+									<!-- Price -->
+									<div class="mb-1 productPrice h6"
+										th:text="'$' + ${#numbers.formatDecimal(productAndCount.key.productPrice,0,2)}"></div>
+
+									<label for="heartLikeButton" style="padding-left: 5%">
+										<button type="button" style="background-color: #FFB6C1"
+											th:onclick="'javascript:myFunction(' + ${productAndCount.key.productID} + ')'">
+											Add To Cart</button>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="row col-lg-11 mx-auto">
+
+				<th:block
+					th:each="productAndCount: ${merchandiseProductsAndCountShop}">
+					<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100">
+							<a class="modalclickable"
+								th:onclick="'javascript:GetById(' + ${productAndCount.key.productID} + ')'">
+								<img th:src="${productAndCount.key.productUrl}"
+								class="card-img-top productPhotoSize">
+							</a>
+
+							<!-- Collapse -->
+							<div class="card-collapse-parent">
+
+								<!-- Body -->
+								<div class="card-body px-0 bg-white">
+									<div class="row">
+										<div class="col-4">
+											<img class="rounded-circle" width="100%"
+												style="padding-left: 30%; padding-bottom: 10%"
+												th:src="${productAndCount.key.productUser.profileUrl}">
+										</div>
+										<div class="col">
+											<h5>
+												<strong
+													th:text="${productAndCount.key.productUser.firstName + ' ' +
+												productAndCount.key.productUser.lastName}"></strong>
+											</h5>
+										</div>
+									</div>
+
+									<!-- Heading -->
+
+									<div class="mb-1 productHeading h6"
+										th:text="${productAndCount.key.productName}"></div>
+
+									<!-- Quantity Sold -->
+									<div class="quantitySold" style="padding-right: 10%"
+										th:text="${productAndCount.value}==null?'0 sold in the past week' : ${productAndCount.value} + ' sold in the past week'"></div>
+
+									<!-- Price -->
+									<div class="mb-1 productPrice h6"
+										th:text="'$' + ${#numbers.formatDecimal(productAndCount.key.productPrice,0,2)}"></div>
+
+									<input type="button" />
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="row col-lg-11 mx-auto">
+
+				<th:block th:each="productAndCount: ${clothingProductsAndCountShop}">
+					<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100">
+							<a class="modalclickable"
+								th:onclick="'javascript:GetById(' + ${productAndCount.key.productID} + ')'">
+								<img th:src="${productAndCount.key.productUrl}"
+								class="card-img-top productPhotoSize">
+							</a>
+
+							<!-- Collapse -->
+							<div class="card-collapse-parent">
+
+								<!-- Body -->
+								<div class="card-body px-0 bg-white">
+									<div class="row">
+										<div class="col-4">
+											<img class="rounded-circle" width="100%"
+												style="padding-left: 30%; padding-bottom: 10%"
+												th:src="${productAndCount.key.productUser.profileUrl}">
+										</div>
+										<div class="col">
+											<h5>
+												<strong
+													th:text="${productAndCount.key.productUser.firstName + ' ' +
+												productAndCount.key.productUser.lastName}"></strong>
+											</h5>
+										</div>
+									</div>
+
+									<!-- Heading -->
+
+									<div class="mb-1 productHeading h6"
+										th:text="${productAndCount.key.productName}"></div>
+
+									<!-- Quantity Sold -->
+									<div class="quantitySold" style="padding-right: 10%"
+										th:text="${productAndCount.value}==null?'0 sold in the past week' : ${productAndCount.value} + ' sold in the past week'"></div>
+
+									<!-- Price -->
+									<div class="mb-1 productPrice h6"
+										th:text="'$' + ${#numbers.formatDecimal(productAndCount.key.productPrice,0,2)}"></div>
+
+									<label for="heartLikeButton" style="padding-left: 5%">
+										<button type="button" style="background-color: #FFB6C1"
+											th:onclick="'javascript:myFunction(' + ${productAndCount.key.productID} + ')'">
+											Add To Cart</button>
+									</label>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="row col-lg-11 mx-auto">
+
+				<th:block
+					th:each="productAndCount: ${musicCollectionProductsAndCountShop}">
+					<div class="col-6 col-md-3 col-lg-3 mb-5">
+						<div class="card mb-1 h-100">
+							<a class="modalclickable"
+								th:onclick="'javascript:GetById(' + ${productAndCount.key.productID} + ')'">
+								<img th:src="${productAndCount.key.productUrl}"
+								class="card-img-top productPhotoSize">
+							</a>
+
+							<!-- Collapse -->
+							<div class="card-collapse-parent">
+
+								<!-- Body -->
+								<div class="card-body px-0 bg-white">
+									<div class="row">
+										<div class="col-4">
+											<img class="rounded-circle" width="100%"
+												style="padding-left: 30%; padding-bottom: 10%"
+												th:src="${productAndCount.key.productUser.profileUrl}">
+										</div>
+										<div class="col">
+											<h5>
+												<strong
+													th:text="${productAndCount.key.productUser.firstName + ' ' +
+												productAndCount.key.productUser.lastName}"></strong>
+											</h5>
+										</div>
+									</div>
+
+									<!-- Heading -->
+
+									<div class="mb-1 productHeading h6"
+										th:text="${productAndCount.key.productName}"></div>
+
+									<!-- Quantity Sold -->
+									<div class="quantitySold" style="padding-right: 10%"
+										th:text="${productAndCount.value}==null?'0 sold in the past week' : ${productAndCount.value} + ' sold in the past week'"></div>
+
+									<!-- Price -->
+									<div class="mb-1 productPrice h6"
+										th:text="'$' + ${#numbers.formatDecimal(productAndCount.key.productPrice,0,2)}"></div>
+
+									<label for="heartLikeButton" style="padding-left: 5%">
+										<button type="button" style="background-color: #FFB6C1"
+											th:onclick="'javascript:myFunction(' + ${productAndCount.key.productID} + ')'">
+											Add To Cart</button>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+	</section>
+	<div class="modal fade" id="cartModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header border-bottom-0">
+					<h5 class="modal-title" id="exampleModalLabel">Product Details
+					</h5>
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-image">
+						<tbody>
+							<tr>
+								<td class="w-50"><img id="myImage"
+									src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png"
+									class="img-fluid img-thumbnail" alt="Sheep"></td>
+								<td><label class="mb-4" id="lblName">Vans Sk8-Hi
+										MTE Shoes</label><br> <br> <br> <label
+									id="lblDescription">Vans Sk8-Hi MTE Shoes</label><br> <br>
+									<br> <label id="lblPrice">Vans Sk8-Hi MTE Shoes</label><br>
+									<br> <br> <!-- <input type="text" class="form-control" id="input1" value="2"> -->
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="d-flex justify-content-end">
+						<div id="divProductId" style="display: none;"></div>
+						<button type="button" class="btn btn-primary"
+							id="addToCart">
+							<i class="fa fa-shopping-cart"></i> Add To Cart
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<p style="margin-top: 3px;">@2020-2021 Jam | Term 2</p>
+	</div>
+
+</body>
+
+<script>
+	$("#addToCart").click(function() {
+		var productID = $("#divProductId").html();
+		myFunction(productID);
+	});
+	function myFunction(productID) {
+		//alert(productID);
+		$.ajax({
+			type : 'POST',
+			url : "/addToCart",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+			data : {
+				productId : productID
+			},
+			success : function(response) {
+				//alert(response);
+				var jason = jQuery.parseJSON(response);
+				var status = jason.status;
+				var count = jason.count;
+				$("#lblCartCount").text(count);
+				if (status == "error") {
+					alert("The product you added is reach to maximum amount");
+				}
+
+				$('#cartModal').modal('hide');
+
+			},
+			error : function(xmlHttpRequest, textStatus, errorThrown) {
+				console.log("error" + errorThrown);
+				alert("error");
+			}
+		});
+
+	}
+
+	function GetById(productID) {
+		if (productID == "") {
+			alert("Please Enter Id");
+		} else {
+			var myModal = $('#myModal');
+			$
+					.ajax({
+						type : "POST",
+						url : "/product/details",
+						data : {
+							productId : productID
+						},
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',
+						success : function(response) {
+							//alert(response);
+							var jason = jQuery.parseJSON(response);
+							var Name = jason.Name;
+							var Description = jason.Description;
+							var Price = jason.Price;
+							var Url = jason.Url;
+							$('#lblName').html('Product Name: ' + Name);
+							$('#lblDescription').html(
+									'Description : ' + Description);
+							$('#lblPrice').html('Price : $' + Price);
+							$('#divProductId').html(productID);
+							$("#myImage").attr('src', Url);
+							$('#cartModal').modal('show');
+
+						},
+						error : function(xmlHttpRequest, textStatus,
+								errorThrown) {
+							console.log("error" + errorThrown);
+							alert("error");
+						}
+					});
+		}
+		return false;
+	}
+</script>
+</html>
